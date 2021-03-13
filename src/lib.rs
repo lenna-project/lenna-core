@@ -4,6 +4,7 @@ pub mod plugins;
 #[cfg(test)]
 mod tests {
     use image::io::Reader as ImageReader;
+    use serde_yaml;
     use crate::core;
     use crate::core::processor::Processor;
 
@@ -20,8 +21,9 @@ mod tests {
 
     #[test]
     fn pipeline() {
+        let config_file = std::fs::File::open("lenna.yml").unwrap();
+        let config: core::config::Config = serde_yaml::from_reader(config_file).unwrap();
         let mut img = ImageReader::open("lenna.png").unwrap().decode().unwrap();
-        let config = core::config::Config::default();
         let pool = core::pool::Pool::default();
         let pipeline = core::pipeline::Pipeline::new(config, pool);
         img = pipeline.run(img);

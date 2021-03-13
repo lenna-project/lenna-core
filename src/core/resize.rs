@@ -22,8 +22,10 @@ impl Processor for Resize {
         "Plugin to resize image size."
     }
 
-    fn process(&self, _config: &ProcessorConfig, image: DynamicImage) -> DynamicImage {
-        image
+    fn process(&self, config: &ProcessorConfig, image: DynamicImage) -> DynamicImage {
+        let width = config.config["width"].as_u64().unwrap();
+        let height = config.config["height"].as_u64().unwrap();
+        image.thumbnail(width as u32, height as u32)
     }
 }
 
