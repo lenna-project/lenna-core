@@ -1,0 +1,12 @@
+[package]
+name = "lenna-core"
+version = "0.1.0"
+authors = ["Christian <chriamue@gmail.com>"]
+edition = "2018"
+description = "Lenna Core Library"
+
+[dependencies]
+dyn-clone = "1.0.4"
+image = { version = "0.23.12", default-features = false, features = ["png"] }
+imageproc = "0.22.0"
+serde = { version = "1.0", features = ["derive"] }
