@@ -21,8 +21,8 @@
 <span id="18">18</span>
 <span id="19">19</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">core</span>::<span class="ident">processor</span>::<span class="ident">Processor</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">core</span>::<span class="ident">pool</span>::<span class="ident">Pool</span>;
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">core</span>::<span class="ident">processor</span>::<span class="ident">Processor</span>;
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">PluginDeclaration</span> {
@@ -36,7 +36,7 @@
 }
 
 <span class="kw">impl</span> <span class="ident">PluginRegistrar</span> <span class="kw">for</span> <span class="ident">Pool</span> {
-    <span class="kw">fn</span> <span class="ident">add_plugin</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">plugin</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Processor</span><span class="op">&gt;</span>){
+    <span class="kw">fn</span> <span class="ident">add_plugin</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">plugin</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Processor</span><span class="op">&gt;</span>) {
         <span class="self">self</span>.<span class="ident">add</span>(<span class="ident">plugin</span>)
     }
 }
