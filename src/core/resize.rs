@@ -1,15 +1,27 @@
-use image::DynamicImage;
-
 use super::config::ProcessorConfig;
 use super::processor::Processor;
+use image::DynamicImage;
+use serde::{Deserialize, Serialize};
 
 #[derive(Default, Clone)]
-pub struct Resize {
+pub struct Resize {}
 
+#[derive(Clone, Serialize, Deserialize)]
+struct Config {
+    width: u32,
+    height: u32,
+}
+
+impl Default for Config {
+    fn default() -> Self {
+        Config {
+            width: 400,
+            height: 400,
+        }
+    }
 }
 
 impl Processor for Resize {
-
     fn name(&self) -> String {
         "resize".into()
     }
@@ -18,10 +30,13 @@ impl Processor for Resize {
         "Plugin to resize image size.".into()
     }
 
-    fn process(&self, config: &ProcessorConfig, image: DynamicImage) -> DynamicImage {
-        let width = config.config["width"].as_u64().unwrap();
-        let height = config.config["height"].as_u64().unwrap();
-        image.thumbnail(width as u32, height as u32)
+    fn process(&self, config: ProcessorConfig, image: DynamicImage) -> DynamicImage {
+        let config: Config = serde_json::from_value(config.config).unwrap();
+        image.thumbnail(config.width, config.height)
+    }
+
+    fn default_config(&self) -> serde_json::Value {
+        serde_json::to_value(Config::default()).unwrap()
     }
 }
 
@@ -33,5 +48,7 @@ mod tests {
     fn default() {
         let resize = Resize::default();
         assert_eq!(resize.name(), "resize");
+        assert_eq!(resize.default_config()["width"], 400);
+        assert_eq!(resize.default_config()["height"], 400);
     }
 }

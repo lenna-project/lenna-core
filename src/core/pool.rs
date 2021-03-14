@@ -2,7 +2,7 @@ use super::processor::Processor;
 use super::resize::Resize;
 
 pub struct Pool {
-    processors: Vec<Box<dyn Processor>>
+    processors: Vec<Box<dyn Processor>>,
 }
 
 impl Pool {
@@ -29,7 +29,7 @@ impl Default for Pool {
     fn default() -> Self {
         let resize = Resize::default();
         let mut pool = Pool {
-            processors: Vec::new()
+            processors: Vec::new(),
         };
         pool.add(Box::new(resize));
         pool

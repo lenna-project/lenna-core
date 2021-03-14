@@ -1,11 +1,11 @@
 pub mod core;
 pub mod plugins;
 
-pub use crate::core::config::Config as Config;
-pub use crate::core::config::ProcessorConfig as ProcessorConfig;
-pub use crate::core::pipeline::Pipeline as Pipeline;
-pub use crate::core::processor::Processor as Processor;
-pub use crate::core::pool::Pool as Pool;
+pub use crate::core::config::Config;
+pub use crate::core::config::ProcessorConfig;
+pub use crate::core::pipeline::Pipeline;
+pub use crate::core::pool::Pool;
+pub use crate::core::processor::Processor;
 
 pub static CORE_VERSION: &str = env!("CARGO_PKG_VERSION");
 pub static RUSTC_VERSION: &str = env!("RUSTC_VERSION");
@@ -26,10 +26,10 @@ macro_rules! export_plugin {
 
 #[cfg(test)]
 mod tests {
-    use image::io::Reader as ImageReader;
-    use serde_yaml;
     use crate::core;
     use crate::core::processor::Processor;
+    use image::io::Reader as ImageReader;
+    use serde_yaml;
 
     #[test]
     fn pool() {

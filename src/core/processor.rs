@@ -9,7 +9,8 @@ pub trait Processor: DynClone {
     }
     fn name(&self) -> String;
     fn description(&self) -> String;
-    fn process(&self, config: &ProcessorConfig, image: DynamicImage) -> DynamicImage;
+    fn process(&self, config: ProcessorConfig, image: DynamicImage) -> DynamicImage;
+    fn default_config(&self) -> serde_json::Value;
 }
 
 dyn_clone::clone_trait_object!(Processor);

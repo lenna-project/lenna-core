@@ -1,5 +1,5 @@
-use crate::core::processor::Processor;
 use crate::core::pool::Pool;
+use crate::core::processor::Processor;
 
 #[derive(Copy, Clone)]
 pub struct PluginDeclaration {
@@ -13,7 +13,7 @@ pub trait PluginRegistrar {
 }
 
 impl PluginRegistrar for Pool {
-    fn add_plugin(&mut self, plugin: Box<dyn Processor>){
+    fn add_plugin(&mut self, plugin: Box<dyn Processor>) {
         self.add(plugin)
     }
 }
