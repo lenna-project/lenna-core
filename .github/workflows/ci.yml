@@ -13,3 +13,12 @@ jobs:
           toolchain: stable
       - run: cargo build
       - run: cargo test
+      - run: cargo doc --no-deps
+
+      - name: Deploy Documentation
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./target/doc
+          keep_files: true
