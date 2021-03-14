@@ -10,16 +10,12 @@ pub struct Resize {
 
 impl Processor for Resize {
 
-    fn id(&self) -> &'static str {
-        "resize_0.0.1"
+    fn name(&self) -> String {
+        "resize".into()
     }
 
-    fn name(&self) -> &'static str {
-        "resize"
-    }
-
-    fn description(&self) -> &'static str {
-        "Plugin to resize image size."
+    fn description(&self) -> String {
+        "Plugin to resize image size.".into()
     }
 
     fn process(&self, config: &ProcessorConfig, image: DynamicImage) -> DynamicImage {

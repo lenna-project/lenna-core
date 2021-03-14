@@ -4,15 +4,11 @@ use image::DynamicImage;
 use super::config::ProcessorConfig;
 
 pub trait Processor: DynClone {
-    fn id(&self) -> &'static str {
-        Box::leak(Box::new(format!(
-            "{}_{}",
-            self.name(),
-            env!("CARGO_PKG_VERSION")
-        )))
+    fn id(&self) -> String {
+        format!("{}_{}", self.name(), env!("CARGO_PKG_VERSION"))
     }
-    fn name(&self) -> &'static str;
-    fn description(&self) -> &'static str;
+    fn name(&self) -> String;
+    fn description(&self) -> String;
     fn process(&self, config: &ProcessorConfig, image: DynamicImage) -> DynamicImage;
 }
 

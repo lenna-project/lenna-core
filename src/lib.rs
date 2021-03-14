@@ -38,8 +38,8 @@ mod tests {
         let id = resize.id();
         let name = resize.name();
         pool.add(Box::new(resize));
-        assert!(pool.get(id).is_some());
-        assert!(pool.get(name).is_some());
+        assert!(pool.get(&id).is_some());
+        assert!(pool.get(&name).is_some());
     }
 
     #[test]
