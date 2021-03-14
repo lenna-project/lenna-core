@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["PluginDeclaration",""]],"trait":[["PluginRegistrar",""]]});

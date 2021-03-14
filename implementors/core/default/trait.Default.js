@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["lenna_core"] = [{"text":"impl Default for Config","synthetic":false,"types":[]},{"text":"impl Default for Pipeline","synthetic":false,"types":[]},{"text":"impl Default for Pool","synthetic":false,"types":[]},{"text":"impl Default for Resize","synthetic":false,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

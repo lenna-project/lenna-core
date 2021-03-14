@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["lenna_core"] = [{"text":"impl RefUnwindSafe for Config","synthetic":true,"types":[]},{"text":"impl RefUnwindSafe for ProcessorConfig","synthetic":true,"types":[]},{"text":"impl !RefUnwindSafe for Pipeline","synthetic":true,"types":[]},{"text":"impl !RefUnwindSafe for Pool","synthetic":true,"types":[]},{"text":"impl RefUnwindSafe for Resize","synthetic":true,"types":[]},{"text":"impl RefUnwindSafe for PluginDeclaration","synthetic":true,"types":[]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
