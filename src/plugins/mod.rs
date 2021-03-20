@@ -17,3 +17,5 @@ impl PluginRegistrar for Pool {
         self.add(plugin)
     }
 }
+
+pub mod wasm;
