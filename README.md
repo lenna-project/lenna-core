@@ -1,4 +1,6 @@
-# lenna-core
+# lenna-core ![build](https://github.com/lenna-project/lenna-core/actions/workflows/ci.yml/badge.svg)
+
+Lenna is a library for image processing algorithms and apps.
 
 This is the core library for lenna.
 
