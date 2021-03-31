@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["lenna_core"] = [{"text":"impl Copy for PluginDeclaration","synthetic":false,"types":[]}];
+implementors["lenna_core"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/marker/trait.Copy.html\" title=\"trait core::marker::Copy\">Copy</a> for <a class=\"struct\" href=\"lenna_core/plugins/struct.PluginDeclaration.html\" title=\"struct lenna_core::plugins::PluginDeclaration\">PluginDeclaration</a>","synthetic":false,"types":["lenna_core::plugins::PluginDeclaration"]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
