@@ -11,6 +11,8 @@ cargo build
 cargo test
 ```
 
+![Build](docs/images/build.gif)
+
 ## create plugins
 
 ```rust
