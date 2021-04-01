@@ -35,15 +35,14 @@ macro_rules! export_wasm_plugin {
 
         #[doc(hidden)]
         #[wasm_bindgen(js_name = process)]
-        pub fn process(data: &[u8]) -> Vec<u8> {
-            use std::io::{Cursor, Read, Seek, SeekFrom};
+        pub fn process(config: wasm_bindgen::JsValue, data: &[u8]) -> Vec<u8> {
+            use std::io::{Read, Seek};
             
             let processor = $processor::default();
-            let mut config: lenna_core::ProcessorConfig = lenna_core::ProcessorConfig {
+            let mut config: $crate::core::config::ProcessorConfig = $crate::core::config::ProcessorConfig {
                 id: processor.id(),
-                config: processor.default_config().into(),
+                config: config.into_serde().unwrap(),
             };
-            config.config = processor.default_config();
 
             let img = image::load_from_memory(&data).unwrap();
             let img = processor.process(config, img);
