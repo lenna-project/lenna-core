@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["PluginDeclaration",""]],"trait":[["PluginRegistrar",""]]});
+initSidebarItems({"mod":[["cpp",""]],"struct":[["PluginDeclaration",""]],"trait":[["PluginRegistrar",""]]});
