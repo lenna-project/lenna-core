@@ -26,6 +26,14 @@ impl Processor for Resize {
         "resize".into()
     }
 
+    fn title(&self) -> String {
+        "Resize".into()
+    }
+
+    fn author(&self) -> String {
+        "chriamue".into()
+    }
+
     fn description(&self) -> String {
         "Plugin to resize image size.".into()
     }

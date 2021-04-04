@@ -18,4 +18,6 @@ impl PluginRegistrar for Pool {
     }
 }
 
+pub mod cpp;
+
 pub mod wasm;
