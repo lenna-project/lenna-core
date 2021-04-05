@@ -3,6 +3,7 @@ use super::processor::Processor;
 use image::DynamicImage;
 use serde::{Deserialize, Serialize};
 
+#[repr(C)]
 #[derive(Default, Clone)]
 pub struct Resize {}
 
