@@ -20,4 +20,7 @@ impl PluginRegistrar for Pool {
 
 pub mod c;
 
+#[cfg(feature = "python")]
+pub mod python;
+
 pub mod wasm;
