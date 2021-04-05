@@ -1,1 +1,1 @@
-initSidebarItems({"macro":[["export_plugin",""]],"mod":[["core",""],["plugins",""]],"static":[["CORE_VERSION",""],["RUSTC_VERSION",""]]});
+initSidebarItems({"macro":[["export_plugin",""],["export_python_plugin",""]],"mod":[["core",""],["plugins",""]],"static":[["CORE_VERSION",""],["RUSTC_VERSION",""]]});
