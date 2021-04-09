@@ -1,4 +1,5 @@
 .venv/
+lenna_core/*.so
 __pycache__
 /target
 Cargo.lock
