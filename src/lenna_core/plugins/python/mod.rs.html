@@ -170,7 +170,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">core</span>::<span class="ident">processor</span>::<span class="ident">Processor</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">core</span>::<span class="ident">resize</span>::<span class="ident">Resize</span>;
 
-<span class="kw">fn</span> <span class="ident">py_process</span>(
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">py_process</span>(
     <span class="ident">processor</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Processor</span><span class="op">&gt;</span>,
     <span class="ident">config</span>: <span class="ident">serde_json</span>::<span class="ident">Value</span>,
     <span class="ident">data</span>: <span class="ident">ndarray</span>::<span class="ident">ArrayViewD</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">u8</span><span class="op">&gt;</span>,
