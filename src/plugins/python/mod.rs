@@ -160,6 +160,7 @@ macro_rules! export_python_plugin {
     };
 }
 
+#[cfg(feature = "resize-plugin")]
 #[pymodule]
 fn lenna_core(py: Python, module: &PyModule) -> PyResult<()> {
     export_python_plugin!(crate::core::resize::Resize, "resize", py, module);

@@ -2,5 +2,4 @@
 lenna_core/*.so
 __pycache__
 /target
-Cargo.lock
 lenna_test_out.png

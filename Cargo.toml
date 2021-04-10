@@ -11,13 +11,13 @@ readme = "README.md"
 crate-type = ["cdylib", "rlib"]
 
 [features]
-default = ["python"]
+default = []
+resize-plugin = []
 python = ["ndarray", "ndarray-image", "numpy", "pyo3", "pythonize"]
 
 [dependencies]
 dyn-clone = "1.0.4"
 image = { version = "0.23.12", default-features = false, features = ["png"] }
-imageproc = "0.22.0"
 paste = "1.0"
 pyo3 = {version = "0.13.0", features = ["extension-module"], optional = true }
 ndarray = { version = "0.14", optional = true }
