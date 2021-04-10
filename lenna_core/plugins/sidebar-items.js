@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["c",""],["python",""]],"struct":[["PluginDeclaration",""]],"trait":[["PluginRegistrar",""]]});
+initSidebarItems({"mod":[["c",""]],"struct":[["PluginDeclaration",""]],"trait":[["PluginRegistrar",""]]});
