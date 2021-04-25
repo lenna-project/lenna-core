@@ -23,6 +23,13 @@ impl Pool {
         }
         None
     }
+
+    pub fn ids(&self) -> Vec<String> {
+        self.processors
+            .iter()
+            .map(|processor| processor.id())
+            .collect()
+    }
 }
 
 impl Default for Pool {
@@ -45,5 +52,11 @@ mod tests {
         let pool = Pool::default();
         let processor = pool.get("none");
         assert!(processor.is_none());
+    }
+
+    #[test]
+    fn ids() {
+        let pool = Pool::default();
+        assert_eq!(pool.ids().len(), 1);
     }
 }
