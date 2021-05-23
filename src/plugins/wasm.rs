@@ -41,7 +41,7 @@ macro_rules! export_wasm_plugin {
             console_error_panic_hook::set_once();
 
             let processor = $processor::default();
-            let mut config: $crate::core::config::ProcessorConfig =
+            let config: $crate::core::config::ProcessorConfig =
                 $crate::core::config::ProcessorConfig {
                     id: processor.id(),
                     config: config.into_serde().unwrap(),
@@ -60,4 +60,15 @@ macro_rules! export_wasm_plugin {
             out_data
         }
     };
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::core::processor::Processor;
+    use crate::core::resize::Resize;
+
+    #[test]
+    fn resize_plugin() {
+        export_wasm_plugin!(Resize);
+    }
 }
