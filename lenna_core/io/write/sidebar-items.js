@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["write_to_file",""]]});
+initSidebarItems({"fn":[["write_to_data",""],["write_to_file",""]]});
