@@ -1,7 +1,6 @@
-use pyo3::prelude::*;
-
 use crate::core::config::ProcessorConfig;
 use crate::core::processor::Processor;
+use crate::core::LennaImage;
 
 pub fn py_process(
     processor: Box<dyn Processor>,
@@ -23,8 +22,13 @@ pub fn py_process(
             .unwrap();
     let image = image::DynamicImage::ImageRgb8(image);
 
-    let image = processor.process(config, image);
-    let image = image.to_rgb8();
+    let mut lenna_image = Box::new(LennaImage::default());
+    lenna_image.image = Box::new(image);
+
+    let mut processor = processor;
+
+    processor.process(config, &mut lenna_image).unwrap();
+    let image = lenna_image.image.to_rgb8();
     let image: ndarray_image::NdColor = ndarray_image::NdImage(&image).into();
 
     image.to_owned().into_dimensionality::<_>().unwrap()
