@@ -1,7 +1,7 @@
 use crate::core::config::ProcessorConfig;
 use crate::core::LennaImage;
 use dyn_clone::DynClone;
-use exif::{Exif, Field};
+use exif::Field;
 use image::DynamicImage;
 
 pub trait Processor: ImageProcessor + ExifProcessor + DynClone {
@@ -34,11 +34,7 @@ pub trait ImageProcessor {
 }
 
 pub trait ExifProcessor {
-    fn process_exif(
-        &self,
-        _exif: &Box<Exif>,
-        _exif_out: &mut Box<Vec<Field>>,
-    ) -> Result<(), Box<dyn std::error::Error>> {
+    fn process_exif(&self, _exif: &mut Box<Vec<Field>>) -> Result<(), Box<dyn std::error::Error>> {
         Ok(())
     }
 }

@@ -30,7 +30,6 @@ mod tests {
     use crate::core;
     use crate::core::processor::Processor;
     use crate::io::read::read_from_file;
-    use image::io::Reader as ImageReader;
     use serde_yaml;
 
     #[test]

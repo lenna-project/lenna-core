@@ -35,7 +35,13 @@ macro_rules! export_wasm_plugin {
 
         #[doc(hidden)]
         #[wasm_bindgen(js_name = process)]
-        pub fn process(config: wasm_bindgen::JsValue, data: &[u8]) -> Vec<u8> {
+        pub fn process(
+            config: wasm_bindgen::JsValue,
+            name: String,
+            path: String,
+            exif: JsValue,
+            data: &[u8],
+        ) -> Vec<u8> {
             use console_error_panic_hook;
             use std::io::{Read, Seek};
             console_error_panic_hook::set_once();
@@ -48,9 +54,20 @@ macro_rules! export_wasm_plugin {
                 };
 
             let img = image::load_from_memory(&data).unwrap();
-            let img = processor.process(config, img);
+
+            let mut lenna_img = Box::new($crate::core::LennaImage {
+                name,
+                path,
+                exif: Box::new(Vec::new()),
+                image: Box::new(img),
+            });
+
+            processor.process(config, &mut lenna_img).unwrap();
             let mut c = std::io::Cursor::new(Vec::new());
-            match img.write_to(&mut c, image::ImageOutputFormat::Png) {
+            match lenna_img
+                .image
+                .write_to(&mut c, image::ImageOutputFormat::Png)
+            {
                 Ok(_) => (),
                 Err(_) => return data.to_vec(),
             };

@@ -1,7 +1,7 @@
 use super::config::ProcessorConfig;
 use super::processor::{ExifProcessor, ImageProcessor, Processor};
 use crate::core::LennaImage;
-use exif::{Exif, Field, In, Tag, Value};
+use exif::{Field, In, Tag, Value};
 use image::DynamicImage;
 use serde::{Deserialize, Serialize};
 
@@ -38,23 +38,19 @@ impl ImageProcessor for Resize {
 }
 
 impl ExifProcessor for Resize {
-    fn process_exif(
-        &self,
-        _exif: &Box<Exif>,
-        exif_out: &mut Box<Vec<Field>>,
-    ) -> Result<(), Box<dyn std::error::Error>> {
+    fn process_exif(&self, exif: &mut Box<Vec<Field>>) -> Result<(), Box<dyn std::error::Error>> {
         let width = Field {
             tag: Tag::PixelXDimension,
             ifd_num: In::PRIMARY,
             value: Value::Short(vec![self.config.width as u16]),
         };
-        exif_out.push(width);
+        exif.push(width);
         let height = Field {
             tag: Tag::PixelYDimension,
             ifd_num: In::PRIMARY,
             value: Value::Short(vec![self.config.height as u16]),
         };
-        exif_out.push(height);
+        exif.push(height);
         Ok(())
     }
 }
@@ -83,8 +79,7 @@ impl Processor for Resize {
     ) -> Result<(), Box<dyn std::error::Error>> {
         let config: Config = serde_json::from_value(config.config).unwrap();
         self.config = config;
-        self.process_exif(&mut image.exif, &mut image.exif_out)
-            .unwrap();
+        self.process_exif(&mut image.exif).unwrap();
         self.process_image(&mut image.image).unwrap();
         Ok(())
     }

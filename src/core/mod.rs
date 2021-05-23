@@ -4,15 +4,14 @@ pub mod pool;
 pub mod processor;
 pub mod resize;
 
-use exif::{Exif, Field, Reader};
+use exif::Field;
 use image::DynamicImage;
 
 pub struct LennaImage {
     pub name: String,
     pub image: Box<DynamicImage>,
     pub path: String,
-    pub exif: Box<Exif>,
-    pub exif_out: Box<Vec<Field>>,
+    pub exif: Box<Vec<Field>>,
 }
 
 impl Default for LennaImage {
@@ -21,12 +20,7 @@ impl Default for LennaImage {
             name: "unnamed".to_string(),
             image: Box::new(DynamicImage::new_rgb8(1, 1)),
             path: "".to_string(),
-            exif: Box::new(
-                Reader::new()
-                    .read_raw(b"MM\0\x2a\0\0\0\x08\0\0\0\0\0\0".to_vec())
-                    .unwrap(),
-            ),
-            exif_out: Box::new(Vec::new()),
+            exif: Box::new(Vec::new()),
         }
     }
 }

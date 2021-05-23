@@ -24,8 +24,7 @@ pub fn read_from_file(path: String) -> Result<LennaImage, Box<dyn std::error::Er
         name: path.file_stem().unwrap().to_str().unwrap().to_string(),
         path: path.parent().unwrap().to_str().unwrap().to_string(),
         image: Box::new(img),
-        exif: Box::new(exif),
-        exif_out: Box::new(exif_out),
+        exif: Box::new(exif_out),
     })
 }
 
@@ -36,7 +35,7 @@ mod tests {
     #[test]
     fn read_file() {
         let image = read_from_file("lenna.png".into()).unwrap();
-        assert_eq!(image.exif_out.len(), 0);
+        assert_eq!(image.exif.len(), 0);
         assert_eq!(image.name, "lenna".to_string());
         assert_eq!(image.path, "".to_string());
     }
