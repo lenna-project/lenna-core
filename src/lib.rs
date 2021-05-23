@@ -1,4 +1,5 @@
 pub mod core;
+pub mod io;
 pub mod plugins;
 
 pub use crate::core::config::Config;
