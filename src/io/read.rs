@@ -1,14 +1,25 @@
 use crate::core::LennaImage;
 
 use exif::{Field, Reader as ExifReader};
-use image::io::Reader as ImageReader;
+use std::io::Read;
 
 pub fn read_from_file(path: String) -> Result<LennaImage, Box<dyn std::error::Error>> {
     let path = std::path::Path::new(&path);
 
-    let file = std::fs::File::open(path)?;
-    let mut buf = std::io::BufReader::new(&file);
-    let exif = match ExifReader::new().read_from_container(&mut buf) {
+    let mut file = std::fs::File::open(path)?;
+    let mut data: Vec<u8> = Vec::new();
+    file.read_to_end(&mut data).unwrap();
+    let mut image = read_from_data(data).unwrap();
+    image.name = path.file_stem().unwrap().to_str().unwrap().to_string();
+    image.path = path.parent().unwrap().to_str().unwrap().to_string();
+    Ok(image)
+}
+
+pub fn read_from_data(data: Vec<u8>) -> Result<LennaImage, Box<dyn std::error::Error>> {
+    let img = image::load_from_memory(&data).unwrap();
+
+    let mut c = std::io::Cursor::new(&data);
+    let exif = match ExifReader::new().read_from_container(&mut c) {
         Ok(exif) => exif,
         Err(_) => ExifReader::new()
             .read_raw(b"MM\0\x2a\0\0\0\x08\0\0\0\0\0\0".to_vec())
@@ -19,10 +30,9 @@ pub fn read_from_file(path: String) -> Result<LennaImage, Box<dyn std::error::Er
         exif_out.push(f.clone());
     }
 
-    let img = ImageReader::open(path).unwrap().decode().unwrap();
     Ok(LennaImage {
-        name: path.file_stem().unwrap().to_str().unwrap().to_string(),
-        path: path.parent().unwrap().to_str().unwrap().to_string(),
+        name: "".to_string(),
+        path: "".to_string(),
         image: Box::new(img),
         exif: Box::new(exif_out),
     })
