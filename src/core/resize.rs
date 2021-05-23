@@ -1,5 +1,6 @@
 use super::config::ProcessorConfig;
 use super::processor::{ExifProcessor, ImageProcessor, Processor};
+use crate::core::LennaImage;
 use exif::{Exif, Field, In, Tag, Value};
 use image::DynamicImage;
 use serde::{Deserialize, Serialize};
@@ -51,7 +52,7 @@ impl ExifProcessor for Resize {
         let height = Field {
             tag: Tag::PixelYDimension,
             ifd_num: In::PRIMARY,
-            value: Value::Short(vec![self.config.width as u16]),
+            value: Value::Short(vec![self.config.height as u16]),
         };
         exif_out.push(height);
         Ok(())
@@ -75,13 +76,17 @@ impl Processor for Resize {
         "Plugin to resize image size.".into()
     }
 
-    fn process(&mut self, config: ProcessorConfig, image: DynamicImage) -> DynamicImage {
+    fn process(
+        &mut self,
+        config: ProcessorConfig,
+        image: &mut Box<LennaImage>,
+    ) -> Result<(), Box<dyn std::error::Error>> {
         let config: Config = serde_json::from_value(config.config).unwrap();
         self.config = config;
-        let mut img = Box::new(image);
-        self.process_image(&mut img)
-            .expect("Failed processing image.");
-        *img
+        self.process_exif(&mut image.exif, &mut image.exif_out)
+            .unwrap();
+        self.process_image(&mut image.image).unwrap();
+        Ok(())
     }
 
     fn default_config(&self) -> serde_json::Value {

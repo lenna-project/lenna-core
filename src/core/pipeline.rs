@@ -1,7 +1,7 @@
 use super::config::{Config, ProcessorConfig};
 use super::pool::Pool;
 use super::processor::Processor;
-use image::DynamicImage;
+use crate::core::LennaImage;
 
 pub struct Pipeline {
     config: Config,
@@ -16,25 +16,25 @@ impl Pipeline {
         }
     }
 
-    pub fn run(&self, image: DynamicImage) -> DynamicImage {
-        let mut image = image;
+    pub fn run(&self, image: &mut Box<LennaImage>) -> Result<(), Box<dyn std::error::Error>> {
         for processor_config in &self.config.pipeline {
             let id = processor_config.id.clone().to_string();
             let processor = self.pool.get(&id);
-            image = self.process(processor_config.clone(), image, processor);
+            self.process(processor_config.clone(), image, processor)
+                .unwrap();
         }
-        image
+        Ok(())
     }
 
     pub fn process(
         &self,
         config: ProcessorConfig,
-        image: DynamicImage,
+        image: &mut Box<LennaImage>,
         processor: Option<Box<dyn Processor>>,
-    ) -> DynamicImage {
+    ) -> Result<(), Box<dyn std::error::Error>> {
         match processor {
             Some(mut processor) => processor.process(config, image),
-            _ => image,
+            _ => Ok(()),
         }
     }
 }

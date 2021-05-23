@@ -1,8 +1,8 @@
+use crate::core::config::ProcessorConfig;
+use crate::core::LennaImage;
 use dyn_clone::DynClone;
 use exif::{Exif, Field};
 use image::DynamicImage;
-
-use super::config::ProcessorConfig;
 
 pub trait Processor: ImageProcessor + ExifProcessor + DynClone {
     fn id(&self) -> String {
@@ -15,7 +15,12 @@ pub trait Processor: ImageProcessor + ExifProcessor + DynClone {
     }
     fn author(&self) -> String;
     fn description(&self) -> String;
-    fn process(&mut self, config: ProcessorConfig, image: DynamicImage) -> DynamicImage;
+    fn process(
+        &mut self,
+        config: ProcessorConfig,
+        image: &mut Box<LennaImage>,
+    ) -> Result<(), Box<dyn std::error::Error>>;
+    fn set_config(&mut self, _config: serde_json::Value) {}
     fn default_config(&self) -> serde_json::Value;
 }
 

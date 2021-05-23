@@ -29,6 +29,7 @@ macro_rules! export_plugin {
 mod tests {
     use crate::core;
     use crate::core::processor::Processor;
+    use crate::io::read::read_from_file;
     use image::io::Reader as ImageReader;
     use serde_yaml;
 
@@ -47,10 +48,10 @@ mod tests {
     fn pipeline() {
         let config_file = std::fs::File::open("lenna.yml").unwrap();
         let config: core::config::Config = serde_yaml::from_reader(config_file).unwrap();
-        let mut img = ImageReader::open("lenna.png").unwrap().decode().unwrap();
+        let mut img = Box::new(read_from_file("lenna.png".to_string()).unwrap());
         let pool = core::pool::Pool::default();
         let pipeline = core::pipeline::Pipeline::new(config, pool);
-        img = pipeline.run(img);
-        img.save("lenna_test_out.png").unwrap();
+        pipeline.run(&mut img).unwrap();
+        img.image.save("lenna_test_out.png").unwrap();
     }
 }
