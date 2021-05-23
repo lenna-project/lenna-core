@@ -3,3 +3,4 @@ lenna_core/*.so
 __pycache__
 /target
 lenna_test_out.png
+lenna_test_write.jpg
