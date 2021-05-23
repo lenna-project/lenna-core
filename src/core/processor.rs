@@ -1,9 +1,10 @@
 use dyn_clone::DynClone;
+use exif::{Exif, Field};
 use image::DynamicImage;
 
 use super::config::ProcessorConfig;
 
-pub trait Processor: ImageProcessor + DynClone {
+pub trait Processor: ImageProcessor + ExifProcessor + DynClone {
     fn id(&self) -> String {
         format!("{}_{}", self.name(), self.version())
     }
@@ -22,6 +23,16 @@ pub trait ImageProcessor {
     fn process_image(
         &self,
         _image: &mut Box<DynamicImage>,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        Ok(())
+    }
+}
+
+pub trait ExifProcessor {
+    fn process_exif(
+        &self,
+        _exif: &Box<Exif>,
+        _exif_out: &mut Box<Vec<Field>>,
     ) -> Result<(), Box<dyn std::error::Error>> {
         Ok(())
     }
