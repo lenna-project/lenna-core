@@ -33,7 +33,7 @@ impl Pipeline {
         processor: Option<Box<dyn Processor>>,
     ) -> DynamicImage {
         match processor {
-            Some(processor) => processor.process(config, image),
+            Some(mut processor) => processor.process(config, image),
             _ => image,
         }
     }

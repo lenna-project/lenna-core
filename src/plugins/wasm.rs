@@ -36,11 +36,11 @@ macro_rules! export_wasm_plugin {
         #[doc(hidden)]
         #[wasm_bindgen(js_name = process)]
         pub fn process(config: wasm_bindgen::JsValue, data: &[u8]) -> Vec<u8> {
-            use std::io::{Read, Seek};
             use console_error_panic_hook;
+            use std::io::{Read, Seek};
             console_error_panic_hook::set_once();
 
-            let processor = $processor::default();
+            let mut processor = $processor::default();
             let config: $crate::core::config::ProcessorConfig =
                 $crate::core::config::ProcessorConfig {
                     id: processor.id(),

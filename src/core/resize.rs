@@ -1,11 +1,13 @@
 use super::config::ProcessorConfig;
-use super::processor::Processor;
+use super::processor::{ImageProcessor, Processor};
 use image::DynamicImage;
 use serde::{Deserialize, Serialize};
 
 #[repr(C)]
 #[derive(Default, Clone)]
-pub struct Resize {}
+pub struct Resize {
+    config: Config,
+}
 
 #[derive(Clone, Serialize, Deserialize)]
 struct Config {
@@ -19,6 +21,17 @@ impl Default for Config {
             width: 400,
             height: 400,
         }
+    }
+}
+
+impl ImageProcessor for Resize {
+    fn process_image(
+        &self,
+        image: &mut Box<DynamicImage>,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let resized = image.thumbnail(self.config.width, self.config.height);
+        *image = Box::new(resized);
+        Ok(())
     }
 }
 
@@ -39,9 +52,13 @@ impl Processor for Resize {
         "Plugin to resize image size.".into()
     }
 
-    fn process(&self, config: ProcessorConfig, image: DynamicImage) -> DynamicImage {
+    fn process(&mut self, config: ProcessorConfig, image: DynamicImage) -> DynamicImage {
         let config: Config = serde_json::from_value(config.config).unwrap();
-        image.thumbnail(config.width, config.height)
+        self.config = config;
+        let mut img = Box::new(image);
+        self.process_image(&mut img)
+            .expect("Failed processing image.");
+        *img
     }
 
     fn default_config(&self) -> serde_json::Value {
