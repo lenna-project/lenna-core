@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["read_from_file",""]]});
+initSidebarItems({"fn":[["read_from_data",""],["read_from_file",""]]});
