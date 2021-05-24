@@ -1,5 +1,5 @@
 use crate::core::LennaImage;
-use exif::experimental::Writer as ExifWriter;
+use exif::{experimental::Writer as ExifWriter, Field, Tag};
 use image;
 use img_parts::{jpeg::Jpeg, png::Png, ImageEXIF};
 
@@ -29,6 +29,7 @@ pub fn write_to_data(
     let img = &image.image;
     let mut image_data: Vec<u8> = Vec::new();
     img.write_to(&mut image_data, format.clone()).unwrap();
+    let mut thumbnail = Vec::<u8>::new();
 
     match image.exif.len() {
         0 => Ok(image_data),
@@ -36,8 +37,24 @@ pub fn write_to_data(
             let mut exif_writer = ExifWriter::new();
 
             let exif_fields = image.exif.to_vec();
+
             for f in &exif_fields {
-                exif_writer.push_field(&f);
+                match *f {
+                    Field {
+                        tag: Tag::JPEGInterchangeFormat,
+                        ifd_num: exif::In::THUMBNAIL,
+                        ..
+                    } => match &f.value {
+                        exif::Value::Byte(data) => {
+                            thumbnail = data.to_vec();
+                        }
+                        _ => {}
+                    },
+                    _ => exif_writer.push_field(&f),
+                };
+            }
+            if thumbnail.len() > 0 {
+                exif_writer.set_jpeg(&thumbnail[..], exif::In::THUMBNAIL);
             }
             let mut exif_data = std::io::Cursor::new(Vec::new());
             exif_writer.write(&mut exif_data, false).unwrap();

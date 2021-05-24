@@ -2,12 +2,12 @@ pub mod core;
 pub mod io;
 pub mod plugins;
 
-pub use crate::core::LennaImage;
 pub use crate::core::config::Config;
 pub use crate::core::config::ProcessorConfig;
 pub use crate::core::pipeline::Pipeline;
 pub use crate::core::pool::Pool;
-pub use crate::core::processor::{Processor, ImageProcessor, ExifProcessor};
+pub use crate::core::processor::{ExifProcessor, ImageProcessor, Processor};
+pub use crate::core::LennaImage;
 
 pub static CORE_VERSION: &str = env!("CARGO_PKG_VERSION");
 pub static RUSTC_VERSION: &str = env!("RUSTC_VERSION");

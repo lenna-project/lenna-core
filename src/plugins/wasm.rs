@@ -53,7 +53,8 @@ macro_rules! export_wasm_plugin {
             processor.process(config, &mut lenna_img).unwrap();
 
             let out_data =
-                $crate::io::write::write_to_data(&lenna_img, image::ImageOutputFormat::Png).unwrap();
+                $crate::io::write::write_to_data(&lenna_img, image::ImageOutputFormat::Png)
+                    .unwrap();
 
             out_data
         }
