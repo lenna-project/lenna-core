@@ -1,7 +1,8 @@
 use crate::core::LennaImage;
 use exif::{experimental::Writer as ExifWriter, Field, Tag};
 use image;
-use img_parts::{jpeg::Jpeg, png::Png, ImageEXIF};
+use img_parts::{jpeg::Jpeg, png::Png, ImageEXIF, ImageICC};
+use std::io::{Cursor, Seek, SeekFrom};
 
 pub fn write_to_file(
     image: &LennaImage,
@@ -28,6 +29,7 @@ pub fn write_to_data(
 ) -> Result<Vec<u8>, Box<dyn std::error::Error>> {
     let img = &image.image;
     let mut image_data: Vec<u8> = Vec::new();
+
     img.write_to(&mut image_data, format.clone()).unwrap();
     let mut thumbnail = Vec::<u8>::new();
 
@@ -56,8 +58,10 @@ pub fn write_to_data(
             if thumbnail.len() > 0 {
                 exif_writer.set_jpeg(&thumbnail[..], exif::In::THUMBNAIL);
             }
-            let mut exif_data = std::io::Cursor::new(Vec::new());
+
+            let mut exif_data = Cursor::new(Vec::new());
             exif_writer.write(&mut exif_data, false).unwrap();
+            exif_data.seek(SeekFrom::Start(0)).unwrap();
 
             let mut out = Vec::new();
             match format {
@@ -69,6 +73,7 @@ pub fn write_to_data(
                 _ => {
                     let mut jpeg = Jpeg::from_bytes(image_data.into()).unwrap();
                     jpeg.set_exif(Some(exif_data.into_inner().into()));
+                    jpeg.set_icc_profile(None);
                     jpeg.encoder().write_to(&mut out)?;
                 }
             };
