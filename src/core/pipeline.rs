@@ -10,10 +10,7 @@ pub struct Pipeline {
 
 impl Pipeline {
     pub fn new(config: Config, pool: Pool) -> Pipeline {
-        Pipeline {
-            config: config,
-            pool: pool,
-        }
+        Pipeline { config, pool }
     }
 
     pub fn run(&self, image: &mut Box<LennaImage>) -> Result<(), Box<dyn std::error::Error>> {

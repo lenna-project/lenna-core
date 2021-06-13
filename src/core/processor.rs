@@ -11,7 +11,7 @@ pub trait Processor: ImageProcessor + ExifProcessor + DynClone {
     fn name(&self) -> String;
     fn title(&self) -> String;
     fn version(&self) -> String {
-        format!("{}", env!("CARGO_PKG_VERSION"))
+        env!("CARGO_PKG_VERSION").to_string()
     }
     fn author(&self) -> String;
     fn description(&self) -> String;

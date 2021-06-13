@@ -23,7 +23,7 @@ impl Default for Config {
 
         let resize = ProcessorConfig {
             id: "resize".to_string(),
-            config: config,
+            config,
         };
         Config {
             pipeline: vec![resize],

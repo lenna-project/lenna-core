@@ -46,16 +46,15 @@ pub fn write_to_data(
                         tag: Tag::JPEGInterchangeFormat,
                         ifd_num: exif::In::THUMBNAIL,
                         ..
-                    } => match &f.value {
-                        exif::Value::Byte(data) => {
+                    } => {
+                        if let exif::Value::Byte(data) = &f.value {
                             thumbnail = data.to_vec();
                         }
-                        _ => {}
-                    },
+                    }
                     _ => exif_writer.push_field(&f),
                 };
             }
-            if thumbnail.len() > 0 {
+            if !thumbnail.is_empty() {
                 exif_writer.set_jpeg(&thumbnail[..], exif::In::THUMBNAIL);
             }
 
