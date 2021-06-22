@@ -1,11 +1,16 @@
 [package]
 name = "lenna_core"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Christian <chriamue@gmail.com>"]
 edition = "2018"
-description = "Lenna Core Library"
+description = "Lenna is a library for image processing algorithms and apps."
 license = "MIT"
 readme = "README.md"
+repository = "https://github.com/lenna-project/lenna-core"
+homepage = "https://lenna.app/"
+documentation = "https://docs.rs/lenna_core"
+keywords = ["library", "image-processing"]
+categories = ["multimedia::images", "wasm", "graphics"]
 
 [lib]
 crate-type = ["cdylib", "rlib"]
@@ -41,3 +46,5 @@ rustc_version = "0.3"
 [package.metadata.maturin]
 classifiers = ["Programming Language :: Python"]
 requires-dist = ["numpy"]
+
+exclude = [".github/*"]
