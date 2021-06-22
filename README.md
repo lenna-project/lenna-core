@@ -1,4 +1,6 @@
-# lenna-core ![build](https://github.com/lenna-project/lenna-core/actions/workflows/ci.yml/badge.svg)
+# lenna-core
+[![build](https://github.com/lenna-project/lenna-core/actions/workflows/ci.yml/badge.svg)](https://github.com/lenna-project/lenna-core/actions)
+[![Crates.io](https://img.shields.io/crates/v/lenna_core)](https://crates.io/crates/lenna_core)
 
 Lenna is a library for image processing algorithms and apps.
 
