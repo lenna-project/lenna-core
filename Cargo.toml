@@ -43,6 +43,7 @@ wasm-bindgen-test = "0.2"
 
 [build-dependencies]
 rustc_version = "0.3"
+cbindgen = "0.19"
 
 [package.metadata.maturin]
 classifiers = ["Programming Language :: Python"]

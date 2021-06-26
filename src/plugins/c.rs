@@ -1,7 +1,44 @@
-#[derive(Debug, Clone)]
-#[repr(C)]
 pub struct LennaImageBuffer {
     pub data: Vec<u8>,
+}
+
+// source: https://michael-f-bryan.github.io/rust-ffi-guide/send_basic.html
+#[no_mangle]
+pub unsafe extern "C" fn lenna_plugin_image_destroy(img: *mut LennaImageBuffer) {
+    if !img.is_null() {
+        drop(Box::from_raw(img));
+    }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn lenna_plugin_image_length(img: *const LennaImageBuffer) -> libc::size_t {
+    if img.is_null() {
+        return 0;
+    }
+
+    (&*img).data.len() as libc::size_t
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn lenna_plugin_image(
+    img: *const LennaImageBuffer,
+    buffer: *mut libc::c_char,
+    length: libc::size_t,
+) -> libc::c_int {
+    if img.is_null() || buffer.is_null() {
+        return -1;
+    }
+
+    let img = &*img;
+    let buffer: &mut [u8] = std::slice::from_raw_parts_mut(buffer as *mut u8, length as usize);
+
+    if buffer.len() < img.data.len() {
+        return -1;
+    }
+
+    std::ptr::copy_nonoverlapping(img.data.as_ptr(), buffer.as_mut_ptr(), img.data.len());
+
+    img.data.len() as libc::c_int
 }
 
 #[macro_export]
@@ -83,50 +120,6 @@ macro_rules! export_c_plugin {
                 $crate::plugins::c::LennaImageBuffer { data: out_data };
 
             Box::into_raw(Box::new(buffer))
-        }
-
-        // source: https://michael-f-bryan.github.io/rust-ffi-guide/send_basic.html
-        #[no_mangle]
-        pub unsafe extern "C" fn lenna_plugin_image_destroy(
-            img: *mut $crate::plugins::c::LennaImageBuffer,
-        ) {
-            if !img.is_null() {
-                drop(Box::from_raw(img));
-            }
-        }
-
-        #[no_mangle]
-        pub unsafe extern "C" fn lenna_plugin_image_length(
-            img: *const $crate::plugins::c::LennaImageBuffer,
-        ) -> libc::size_t {
-            if img.is_null() {
-                return 0;
-            }
-
-            (&*img).data.len() as libc::size_t
-        }
-
-        #[no_mangle]
-        pub unsafe extern "C" fn lenna_plugin_image(
-            img: *const $crate::plugins::c::LennaImageBuffer,
-            buffer: *mut libc::c_char,
-            length: libc::size_t,
-        ) -> libc::c_int {
-            if img.is_null() || buffer.is_null() {
-                return -1;
-            }
-
-            let img = &*img;
-            let buffer: &mut [u8] =
-                std::slice::from_raw_parts_mut(buffer as *mut u8, length as usize);
-
-            if buffer.len() < img.data.len() {
-                return -1;
-            }
-
-            std::ptr::copy_nonoverlapping(img.data.as_ptr(), buffer.as_mut_ptr(), img.data.len());
-
-            img.data.len() as libc::c_int
         }
     };
 }
