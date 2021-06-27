@@ -96,8 +96,9 @@ macro_rules! export_c_plugin {
 
         #[doc(hidden)]
         #[no_mangle]
-        pub extern "C" fn lenna_plugin_process(
-            data: &[u8],
+        pub unsafe extern "C" fn lenna_plugin_process(
+            data: *mut libc::c_char,
+            length: libc::size_t,
         ) -> *mut $crate::plugins::c::LennaImageBuffer {
             let mut processor = $processor::default();
             let config: $crate::core::config::ProcessorConfig =
@@ -105,8 +106,9 @@ macro_rules! export_c_plugin {
                     id: processor.id(),
                     config: processor.default_config(),
                 };
-
-            let img = $crate::io::read::read_from_data(data.to_vec()).unwrap();
+            let buffer: &mut [u8] =
+                std::slice::from_raw_parts_mut(data as *mut u8, length as usize);
+            let img = $crate::io::read::read_from_data(buffer.to_vec()).unwrap();
 
             let mut lenna_img = Box::new(img);
 
@@ -120,6 +122,35 @@ macro_rules! export_c_plugin {
                 $crate::plugins::c::LennaImageBuffer { data: out_data };
 
             Box::into_raw(Box::new(buffer))
+        }
+
+        #[doc(hidden)]
+        #[no_mangle]
+        pub unsafe extern "C" fn lenna_plugin_process_base64(
+            b64img: *const std::os::raw::c_char,
+        ) -> *const std::os::raw::c_char {
+            let mut processor = $processor::default();
+            let config: $crate::core::config::ProcessorConfig =
+                $crate::core::config::ProcessorConfig {
+                    id: processor.id(),
+                    config: processor.default_config(),
+                };
+
+            let data = std::ffi::CStr::from_ptr(b64img).to_str().unwrap();
+            let buffer: Vec<u8> = base64::decode(data).unwrap();
+            let img = $crate::io::read::read_from_data(buffer).unwrap();
+
+            let mut lenna_img = Box::new(img);
+
+            processor.process(config, &mut lenna_img).unwrap();
+
+            let out_data =
+                $crate::io::write::write_to_data(&lenna_img, image::ImageOutputFormat::Png)
+                    .unwrap();
+
+            let b64img = base64::encode(out_data);
+
+            std::ffi::CString::new(b64img).unwrap().into_raw()
         }
     };
 }

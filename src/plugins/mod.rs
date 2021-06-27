@@ -18,6 +18,7 @@ impl PluginRegistrar for Pool {
     }
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 pub mod c;
 
 #[cfg(feature = "python")]
