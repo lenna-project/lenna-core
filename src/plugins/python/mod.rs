@@ -37,7 +37,6 @@ pub fn py_process(
 #[macro_export]
 macro_rules! export_python_plugin {
     ($processor:ident) => {
-        #[doc(hidden)]
         #[pyfunction]
         pub fn default_config() -> PyResult<PyObject> {
             let processor = $processor::default();
@@ -46,21 +45,18 @@ macro_rules! export_python_plugin {
             Ok(pythonize::pythonize(py, &processor.default_config()).unwrap())
         }
 
-        #[doc(hidden)]
         #[pyfunction]
         pub fn id() -> String {
             let processor = $processor::default();
             processor.id()
         }
 
-        #[doc(hidden)]
         #[pyfunction]
         pub fn name() -> String {
             let processor = $processor::default();
             processor.name()
         }
 
-        #[doc(hidden)]
         #[pyfunction]
         pub fn description() -> String {
             let processor = $processor::default();
@@ -75,7 +71,8 @@ macro_rules! export_python_plugin {
             m.add_function(pyo3::wrap_pyfunction!(description, m)?)?;
             m.add_function(pyo3::wrap_pyfunction!(default_config, m)?)?;
 
-            #[pyfn(m, "process")]
+            #[pyfn(m)]
+            #[pyo3(name = "process")]
             fn process_py<'py>(
                 py: Python<'py>,
                 config: PyObject,
@@ -100,7 +97,6 @@ macro_rules! export_python_plugin {
                 use pyo3::prelude::*;
                 use $crate::core::processor::Processor;
 
-                #[doc(hidden)]
                 #[pyfunction]
                 pub fn default_config() -> PyResult<PyObject> {
                     let processor = $processor::default();
@@ -109,28 +105,24 @@ macro_rules! export_python_plugin {
                     Ok(pythonize::pythonize(py, &processor.default_config()).unwrap())
                 }
 
-                #[doc(hidden)]
                 #[pyfunction]
                 pub fn id() -> String {
                     let processor = $processor::default();
                     processor.id()
                 }
 
-                #[doc(hidden)]
                 #[pyfunction]
                 pub fn name() -> String {
                     let processor = $processor::default();
                     processor.name()
                 }
 
-                #[doc(hidden)]
                 #[pyfunction]
                 pub fn description() -> String {
                     let processor = $processor::default();
                     processor.description()
                 }
 
-                #[doc(hidden)]
                 #[pyfunction]
                 fn process_py<'py>(
                     py: Python<'py>,
