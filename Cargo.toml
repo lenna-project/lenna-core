@@ -19,6 +19,7 @@ crate-type = ["cdylib", "rlib"]
 default = []
 resize-plugin = []
 python = ["ndarray", "nshare", "numpy", "pyo3", "pythonize"]
+cpp = []
 
 [dependencies]
 base64 = "0.13.0"

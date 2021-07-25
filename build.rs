@@ -5,6 +5,12 @@ fn main() {
     let version = rustc_version::version().unwrap();
     println!("cargo:rustc-env=RUSTC_VERSION={}", version);
 
+    #[cfg(feature = "cpp")]
+    generate_cpp_headers();
+}
+
+#[allow(dead_code)]
+fn generate_cpp_headers() {
     let crate_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
 
     let package_name = env::var("CARGO_PKG_NAME").unwrap();
@@ -18,6 +24,7 @@ fn main() {
         .write_to_file(&output_file);
 }
 
+#[allow(dead_code)]
 fn target_dir() -> PathBuf {
     if let Ok(target) = env::var("CARGO_TARGET_DIR") {
         PathBuf::from(target)
