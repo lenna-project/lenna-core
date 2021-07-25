@@ -1,26 +1,34 @@
 use crate::core::config::ProcessorConfig;
 use crate::core::processor::Processor;
 use crate::core::LennaImage;
+use image::RgbImage;
+use nshare::ToNdarray3;
+use ndarray::{Array3, ArrayView3};
+
+fn array_to_image(arr: Array3<u8>) -> RgbImage {
+    assert!(arr.is_standard_layout());
+
+    let (height, width, _) = arr.dim();
+    let raw = arr.into_raw_vec();
+
+    RgbImage::from_raw(width as u32, height as u32, raw)
+        .expect("container should have the right size for the image dimensions")
+}
 
 pub fn py_process(
     processor: Box<dyn Processor>,
     config: serde_json::Value,
     data: ndarray::ArrayViewD<'_, u8>,
 ) -> ndarray::ArrayD<u8> {
-    let image: ndarray_image::NdColor<'_, u8> = data.into_dimensionality::<ndarray::Ix3>().unwrap();
-
-    let image: Option<ndarray_image::ImgRgb> = ndarray_image::NdImage(image.view()).into();
-    let image = image.unwrap().to_owned();
+    let image: ArrayView3<u8> = data.into_dimensionality::<ndarray::Ix3>().unwrap();
 
     let config: ProcessorConfig = ProcessorConfig {
         id: processor.id(),
         config: config,
     };
-    let s: &[u8] = image.as_raw();
-    let image =
-        image::ImageBuffer::from_raw(image.width() as u32, image.height() as u32, Vec::from(s))
-            .unwrap();
-    let image = image::DynamicImage::ImageRgb8(image);
+
+    let image: RgbImage = array_to_image(image.to_owned());
+    let image: image::DynamicImage = image::DynamicImage::ImageRgb8(image);
 
     let mut lenna_image = Box::new(LennaImage::default());
     lenna_image.image = Box::new(image);
@@ -29,7 +37,7 @@ pub fn py_process(
 
     processor.process(config, &mut lenna_image).unwrap();
     let image = lenna_image.image.to_rgb8();
-    let image: ndarray_image::NdColor = ndarray_image::NdImage(&image).into();
+    let image = image.into_ndarray3();
 
     image.to_owned().into_dimensionality::<_>().unwrap()
 }

@@ -311,7 +311,7 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
 name = "lenna_core"
-version = "0.1.2"
+version = "0.1.3"
 dependencies = [
  "base64",
  "cbindgen",
@@ -322,7 +322,7 @@ dependencies = [
  "kamadak-exif",
  "libc",
  "ndarray",
- "ndarray-image",
+ "nshare",
  "numpy",
  "paste 1.0.5",
  "pyo3",
@@ -413,9 +413,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "ndarray-image"
-version = "0.3.1-alpha.0"
-source = "git+https://github.com/rust-cv/ndarray-image.git#b22aaed38c40d2296430aa7655b0de2d1c2a45aa"
+name = "nshare"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fe2129b076a06e21099e948f3714b33058649df2699f3ba9840489d173067801"
 dependencies = [
  "image",
  "ndarray",
