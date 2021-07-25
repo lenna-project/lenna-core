@@ -1,6 +1,7 @@
 # lenna-core
 [![build](https://github.com/lenna-project/lenna-core/actions/workflows/ci.yml/badge.svg)](https://github.com/lenna-project/lenna-core/actions)
 [![Crates.io](https://img.shields.io/crates/v/lenna_core)](https://crates.io/crates/lenna_core)
+[![dependency status](https://deps.rs/repo/github/lenna-project/lenna-core/status.svg)](https://deps.rs/repo/github/lenna-project/lenna-core)
 
 Lenna is a library for image processing algorithms and apps.
 
@@ -10,7 +11,14 @@ This is the core library for lenna.
 
 ```sh
 cargo build
+```
+
+### run tests
+
+```sh
 cargo test
+cargo test --features=python
+wasm-pack test --node
 ```
 
 ![Build](docs/images/build.gif)
