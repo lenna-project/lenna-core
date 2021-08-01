@@ -32,6 +32,9 @@ impl Pool {
     }
 }
 
+unsafe impl Send for Pool {}
+unsafe impl Sync for Pool {}
+
 impl Default for Pool {
     fn default() -> Self {
         let resize = Resize::default();
