@@ -2,16 +2,39 @@ use serde::{Deserialize, Serialize};
 use serde_json::json;
 use serde_json::Value;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Config {
     pub pipeline: Vec<ProcessorConfig>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ProcessorConfig {
     pub id: String,
     #[serde(flatten)]
     pub config: Value,
+}
+
+impl Config {
+    pub fn add(&mut self, id: String, config: Value) {
+        self.remove(id.clone());
+        self.pipeline.push(ProcessorConfig { id, config })
+    }
+
+    pub fn remove(&mut self, id: String) -> Option<ProcessorConfig> {
+        let position = self.pipeline.iter().position(|c| c.id == id);
+        match position {
+            Some(position) => Some(self.pipeline.remove(position)),
+            _ => None,
+        }
+    }
+
+    pub fn find(&self, id: String) -> Option<&ProcessorConfig> {
+        let config = self.pipeline.iter().find(|&c| c.id == id);
+        match config {
+            Some(config) => Some(&config),
+            _ => None,
+        }
+    }
 }
 
 impl Default for Config {
@@ -28,5 +51,41 @@ impl Default for Config {
         Config {
             pipeline: vec![resize],
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn default() {
+        let config = Config::default();
+        let cloned = config.clone();
+        assert_eq!(config, cloned);
+    }
+
+    #[test]
+    fn find() {
+        let config = Config::default();
+        let resize_config = config.find("resize".into());
+        assert_eq!(resize_config, Some(config.pipeline.get(0).unwrap()));
+    }
+
+    #[test]
+    fn add() {
+        let mut config = Config::default();
+        let values = json!({
+            "bar": 42
+        });
+        config.add("foo".to_string(), values);
+        assert_eq!(config.pipeline.len(), 2);
+    }
+
+    #[test]
+    fn remove() {
+        let mut config = Config::default();
+        config.remove("resize".to_string());
+        assert_eq!(config.pipeline.len(), 0);
     }
 }

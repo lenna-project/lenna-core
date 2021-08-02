@@ -2,8 +2,8 @@ use crate::core::config::ProcessorConfig;
 use crate::core::processor::Processor;
 use crate::core::LennaImage;
 use image::RgbImage;
-use nshare::ToNdarray3;
 use ndarray::{Array3, ArrayView3};
+use nshare::ToNdarray3;
 
 fn array_to_image(arr: Array3<u8>) -> RgbImage {
     assert!(arr.is_standard_layout());
