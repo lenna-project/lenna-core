@@ -22,6 +22,9 @@ pub trait Processor: ImageProcessor + ExifProcessor + DynClone {
     ) -> Result<(), Box<dyn std::error::Error>>;
     fn set_config(&mut self, _config: serde_json::Value) {}
     fn default_config(&self) -> serde_json::Value;
+    fn config_ui(&self) -> Option<String> {
+        None
+    }
 }
 
 pub trait ImageProcessor {

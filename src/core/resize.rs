@@ -87,6 +87,10 @@ impl Processor for Resize {
     fn default_config(&self) -> serde_json::Value {
         serde_json::to_value(Config::default()).unwrap()
     }
+
+    fn config_ui(&self) -> Option<String> {
+        Some(include_str!("resize.vue").to_string())
+    }
 }
 
 #[cfg(test)]
@@ -99,5 +103,7 @@ mod tests {
         assert_eq!(resize.name(), "resize");
         assert_eq!(resize.default_config()["width"], 400);
         assert_eq!(resize.default_config()["height"], 400);
+        let ui = resize.config_ui().unwrap();
+        assert_eq!(ui.starts_with("<template>"), true);
     }
 }

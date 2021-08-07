@@ -1,6 +1,6 @@
 [package]
 name = "lenna_core"
-version = "0.1.5"
+version = "0.1.6"
 authors = ["Christian <chriamue@gmail.com>"]
 edition = "2018"
 description = "Lenna is a library for image processing algorithms and apps."
