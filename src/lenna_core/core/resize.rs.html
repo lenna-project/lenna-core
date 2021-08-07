@@ -103,6 +103,12 @@
 <span id="101">101</span>
 <span id="102">102</span>
 <span id="103">103</span>
+<span id="104">104</span>
+<span id="105">105</span>
+<span id="106">106</span>
+<span id="107">107</span>
+<span id="108">108</span>
+<span id="109">109</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span><span class="ident">::config::ProcessorConfig</span>;
 <span class="kw">use</span> <span class="kw">super</span><span class="ident">::processor</span>::{<span class="ident">ExifProcessor</span>, <span class="ident">ImageProcessor</span>, <span class="ident">Processor</span>};
@@ -193,6 +199,10 @@
     <span class="kw">fn</span> <span class="ident">default_config</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">serde_json::Value</span> {
         <span class="ident">serde_json::to_value</span>(<span class="ident">Config::default</span>()).<span class="ident">unwrap</span>()
     }
+
+    <span class="kw">fn</span> <span class="ident">config_ui</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
+        <span class="prelude-val">Some</span>(<span class="macro">include_str!</span>(<span class="string">&quot;resize.vue&quot;</span>).<span class="ident">to_string</span>())
+    }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
@@ -205,6 +215,8 @@
         <span class="macro">assert_eq!</span>(<span class="ident">resize</span>.<span class="ident">name</span>(), <span class="string">&quot;resize&quot;</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">resize</span>.<span class="ident">default_config</span>()[<span class="string">&quot;width&quot;</span>], <span class="number">400</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">resize</span>.<span class="ident">default_config</span>()[<span class="string">&quot;height&quot;</span>], <span class="number">400</span>);
+        <span class="kw">let</span> <span class="ident">ui</span> <span class="op">=</span> <span class="ident">resize</span>.<span class="ident">config_ui</span>().<span class="ident">unwrap</span>();
+        <span class="macro">assert_eq!</span>(<span class="ident">ui</span>.<span class="ident">starts_with</span>(<span class="string">&quot;&lt;template&gt;&quot;</span>), <span class="bool-val">true</span>);
     }
 }
 </pre></div>
