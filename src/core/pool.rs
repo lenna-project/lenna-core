@@ -1,6 +1,7 @@
 use super::processor::Processor;
 use super::resize::Resize;
 
+#[derive(Clone)]
 pub struct Pool {
     processors: Vec<Box<dyn Processor>>,
 }
@@ -61,5 +62,11 @@ mod tests {
     fn ids() {
         let pool = Pool::default();
         assert_eq!(pool.ids().len(), 1);
+    }
+
+    #[test]
+    fn clone() {
+        let pool = Pool::default();
+        assert_eq!(pool.ids().len(), pool.clone().ids().len());
     }
 }
