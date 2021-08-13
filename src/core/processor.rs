@@ -25,6 +25,9 @@ pub trait Processor: ImageProcessor + ExifProcessor + DynClone {
     fn config_ui(&self) -> Option<String> {
         None
     }
+    fn icon(&self) -> Option<Vec<u8>> {
+        None
+    }
 }
 
 pub trait ImageProcessor {

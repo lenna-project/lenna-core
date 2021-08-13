@@ -4,6 +4,7 @@ use crate::core::LennaImage;
 use exif::{Field, In, Tag, Value};
 use image::DynamicImage;
 use serde::{Deserialize, Serialize};
+use std::include_bytes;
 
 #[repr(C)]
 #[derive(Default, Clone)]
@@ -91,6 +92,11 @@ impl Processor for Resize {
     fn config_ui(&self) -> Option<String> {
         Some(include_str!("resize.vue").to_string())
     }
+
+    fn icon(&self) -> Option<Vec<u8>> {
+        let data: Vec<u8> = include_bytes!("../assets/resize.png").to_vec();
+        Some(data)
+    }
 }
 
 #[cfg(test)]
@@ -105,5 +111,13 @@ mod tests {
         assert_eq!(resize.default_config()["height"], 400);
         let ui = resize.config_ui().unwrap();
         assert_eq!(ui.starts_with("<template>"), true);
+    }
+
+    #[test]
+    fn icon() {
+        let resize = Resize::default();
+        let icon = resize.icon();
+        assert!(icon.is_some());
+        assert_eq!(icon.unwrap().len(), 36408);
     }
 }
