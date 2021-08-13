@@ -109,6 +109,20 @@
 <span id="107">107</span>
 <span id="108">108</span>
 <span id="109">109</span>
+<span id="110">110</span>
+<span id="111">111</span>
+<span id="112">112</span>
+<span id="113">113</span>
+<span id="114">114</span>
+<span id="115">115</span>
+<span id="116">116</span>
+<span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">super</span><span class="ident">::config::ProcessorConfig</span>;
 <span class="kw">use</span> <span class="kw">super</span><span class="ident">::processor</span>::{<span class="ident">ExifProcessor</span>, <span class="ident">ImageProcessor</span>, <span class="ident">Processor</span>};
@@ -116,6 +130,7 @@
 <span class="kw">use</span> <span class="ident">exif</span>::{<span class="ident">Field</span>, <span class="ident">In</span>, <span class="ident">Tag</span>, <span class="ident">Value</span>};
 <span class="kw">use</span> <span class="ident">image::DynamicImage</span>;
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
+<span class="kw">use</span> <span class="ident">std::include_bytes</span>;
 
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Clone</span>)]</span>
@@ -203,6 +218,11 @@
     <span class="kw">fn</span> <span class="ident">config_ui</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
         <span class="prelude-val">Some</span>(<span class="macro">include_str!</span>(<span class="string">&quot;resize.vue&quot;</span>).<span class="ident">to_string</span>())
     }
+
+    <span class="kw">fn</span> <span class="ident">icon</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">data</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> <span class="op">=</span> <span class="macro">include_bytes!</span>(<span class="string">&quot;../assets/resize.png&quot;</span>).<span class="ident">to_vec</span>();
+        <span class="prelude-val">Some</span>(<span class="ident">data</span>)
+    }
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
@@ -217,6 +237,14 @@
         <span class="macro">assert_eq!</span>(<span class="ident">resize</span>.<span class="ident">default_config</span>()[<span class="string">&quot;height&quot;</span>], <span class="number">400</span>);
         <span class="kw">let</span> <span class="ident">ui</span> <span class="op">=</span> <span class="ident">resize</span>.<span class="ident">config_ui</span>().<span class="ident">unwrap</span>();
         <span class="macro">assert_eq!</span>(<span class="ident">ui</span>.<span class="ident">starts_with</span>(<span class="string">&quot;&lt;template&gt;&quot;</span>), <span class="bool-val">true</span>);
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">icon</span>() {
+        <span class="kw">let</span> <span class="ident">resize</span> <span class="op">=</span> <span class="ident">Resize::default</span>();
+        <span class="kw">let</span> <span class="ident">icon</span> <span class="op">=</span> <span class="ident">resize</span>.<span class="ident">icon</span>();
+        <span class="macro">assert!</span>(<span class="ident">icon</span>.<span class="ident">is_some</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">icon</span>.<span class="ident">unwrap</span>().<span class="ident">len</span>(), <span class="number">36408</span>);
     }
 }
 </pre></div>
