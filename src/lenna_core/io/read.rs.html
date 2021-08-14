@@ -52,6 +52,12 @@
 <span id="50">50</span>
 <span id="51">51</span>
 <span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
 </pre><pre class="rust">
 <span class="kw">use</span> <span class="kw">crate</span><span class="ident">::core::LennaImage</span>;
 
@@ -103,6 +109,12 @@
         <span class="macro">assert_eq!</span>(<span class="ident">image</span>.<span class="ident">exif</span>.<span class="ident">len</span>(), <span class="number">0</span>);
         <span class="macro">assert_eq!</span>(<span class="ident">image</span>.<span class="ident">name</span>, <span class="string">&quot;lenna&quot;</span>.<span class="ident">to_string</span>());
         <span class="macro">assert_eq!</span>(<span class="ident">image</span>.<span class="ident">path</span>, <span class="string">&quot;&quot;</span>.<span class="ident">to_string</span>());
+    }
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">read_non_existend_file</span>() {
+        <span class="kw">let</span> <span class="ident">image</span> <span class="op">=</span> <span class="ident">read_from_file</span>(<span class="string">&quot;lennaa.png&quot;</span>.<span class="ident">into</span>());
+        <span class="macro">assert!</span>(<span class="ident">image</span>.<span class="ident">is_err</span>());
     }
 }
 </pre></div>
