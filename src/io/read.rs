@@ -49,4 +49,10 @@ mod tests {
         assert_eq!(image.name, "lenna".to_string());
         assert_eq!(image.path, "".to_string());
     }
+
+    #[test]
+    fn read_non_existend_file() {
+        let image = read_from_file("lennaa.png".into());
+        assert!(image.is_err());
+    }
 }
