@@ -5,6 +5,9 @@ use image::RgbImage;
 use ndarray::{Array3, ArrayView3};
 use nshare::ToNdarray3;
 
+#[allow(unused_imports)]
+use pyo3::prelude::*;
+
 fn array_to_image(arr: Array3<u8>) -> RgbImage {
     assert!(arr.is_standard_layout());
 
@@ -38,8 +41,24 @@ pub fn py_process(
     processor.process(config, &mut lenna_image).unwrap();
     let image = lenna_image.image.to_rgb8();
     let image = image.into_ndarray3();
-
+    // dimension is here (channel, row, col)
+    let mut image = image.reversed_axes();
+    image.swap_axes(0, 1);
+    // dimension is here (row, col, channel)
     image.to_owned().into_dimensionality::<_>().unwrap()
+}
+
+pub fn py_icon(processor: Box<dyn Processor>) -> Option<ndarray::ArrayD<u8>> {
+    match processor.icon() {
+        Some(icon) => {
+            let img = image::load_from_memory(&icon).unwrap();
+            let image = img.to_rgb8();
+            let mut image = image.into_ndarray3().reversed_axes();
+            image.swap_axes(0, 1);
+            Some(image.to_owned().into_dimensionality::<_>().unwrap())
+        }
+        _ => None,
+    }
 }
 
 #[macro_export]
@@ -95,6 +114,16 @@ macro_rules! export_python_plugin {
                 )
                 .into_pyarray(py)
             }
+
+            #[pyfn(m)]
+            #[pyo3(name = "icon")]
+            fn icon_py<'py>(py: Python<'py>) -> &'py numpy::PyArrayDyn<u8> {
+                use numpy::IntoPyArray;
+                $crate::plugins::python::py_icon(Box::new($processor::default()))
+                    .unwrap()
+                    .into_pyarray(py)
+            }
+
             Ok(())
         }
     };
@@ -102,8 +131,8 @@ macro_rules! export_python_plugin {
         paste::paste! {
 
             mod [< $name >] {
-                use pyo3::prelude::*;
                 use $crate::core::processor::Processor;
+                use pyo3::prelude::*;
 
                 #[pyfunction]
                 pub fn default_config() -> PyResult<PyObject> {
@@ -147,17 +176,28 @@ macro_rules! export_python_plugin {
                     .into_pyarray(py)
                 }
 
-                pub fn init_submodule(m: &PyModule) -> PyResult<()> {
+                #[pyfunction]
+                fn icon_py<'py>(
+                    py: Python<'py>,
+                ) -> &'py numpy::PyArrayDyn<u8> {
+                    use numpy::IntoPyArray;
+                    $crate::plugins::python::py_icon(Box::new($processor::default()))
+                    .unwrap()
+                    .into_pyarray(py)
+                }
+
+                pub fn init_submodule(m: &PyModule) -> pyo3::PyResult<()> {
                     m.add_function(pyo3::wrap_pyfunction!(id, m)?)?;
                     m.add_function(pyo3::wrap_pyfunction!(name, m)?)?;
                     m.add_function(pyo3::wrap_pyfunction!(description, m)?)?;
                     m.add_function(pyo3::wrap_pyfunction!(default_config, m)?)?;
                     m.add("process", pyo3::wrap_pyfunction!(process_py, m)?)?;
+                    m.add("icon", pyo3::wrap_pyfunction!(icon_py, m)?)?;
                     Ok(())
                 }
             }
 
-            let submod = PyModule::new($python, $name)?;
+            let submod = pyo3::types::PyModule::new($python, $name)?;
             [< $name >]::init_submodule(submod)?;
             $pymod.add_submodule(submod)?;
         };
@@ -166,14 +206,14 @@ macro_rules! export_python_plugin {
 
 #[cfg(feature = "resize-plugin")]
 #[pymodule]
-fn lenna_core(py: Python, module: &PyModule) -> PyResult<()> {
+fn lenna_core(py: pyo3::Python, module: &pyo3::types::PyModule) -> pyo3::PyResult<()> {
     export_python_plugin!(crate::core::resize::Resize, "resize", py, module);
     Ok(())
 }
 
 #[cfg(test)]
 mod tests {
-    use pyo3::prelude::*;
+    use super::*;
 
     #[test]
     fn module() {
@@ -191,5 +231,12 @@ mod tests {
             export_python_plugin!(crate::core::resize::Resize, "resize", py, module);
             Ok(())
         }
+    }
+
+    #[test]
+    fn test_py_icon() {
+        use crate::core::resize::Resize;
+        let processor = Box::new(Resize::default());
+        assert_eq!(py_icon(processor).unwrap().shape(), &[976, 980, 3]);
     }
 }

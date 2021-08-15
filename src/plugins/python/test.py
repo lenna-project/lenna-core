@@ -14,3 +14,5 @@ print(config)
 processed = lenna_core.resize.process(config, data)
 print(processed.shape)
 Image.fromarray(processed).save('lenna_test_out.png')
+
+Image.fromarray(lenna_core.resize.icon()).save('resize_icon.png')
