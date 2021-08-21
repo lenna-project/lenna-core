@@ -7,6 +7,8 @@ Lenna is a library for image processing algorithms and apps.
 
 This is the core library for lenna.
 
+![Lenna CLI](https://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/lenna-project/lenna-core/main/docs/uml/cli.puml)
+
 ## quickstart
 
 ```sh
