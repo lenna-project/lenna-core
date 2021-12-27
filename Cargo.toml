@@ -2,7 +2,7 @@
 name = "lenna_core"
 version = "0.1.9"
 authors = ["Christian <chriamue@gmail.com>"]
-edition = "2018"
+edition = "2021"
 description = "Lenna is a library for image processing algorithms and apps."
 license = "MIT"
 readme = "README.md"
@@ -38,7 +38,7 @@ serde_json = "1.0"
 serde_yaml = "0.8.17"
 console_error_panic_hook = "0.1.6"
 wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
-libc = "0.2.98"
+libc = "0.2"
 
 [dev-dependencies]
 wasm-bindgen-test = "0.3"
