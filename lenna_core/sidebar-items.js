@@ -1,1 +1,1 @@
-initSidebarItems({"macro":[["export_c_plugin",""],["export_plugin",""]],"mod":[["core",""],["io",""],["plugins",""]],"static":[["CORE_VERSION",""],["RUSTC_VERSION",""]]});
+initSidebarItems({"macro":[["export_c_plugin","The macro used to generate ffi c api."],["export_plugin","The macro used to generate a plugin."]],"mod":[["core",""],["io","Input and output of images."],["plugins",""]],"static":[["CORE_VERSION","Version of lib which was used during compile."],["RUSTC_VERSION","Version of rust compiler which was used during compile."]]});
