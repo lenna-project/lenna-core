@@ -3,6 +3,7 @@ use crate::core::LennaImage;
 use exif::{Field, Reader as ExifReader};
 use std::io::Read;
 
+#[cfg(not(target_arch = "wasm32"))]
 pub fn read_from_file(path: String) -> Result<LennaImage, Box<dyn std::error::Error>> {
     let path = std::path::Path::new(&path);
 

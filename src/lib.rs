@@ -1,3 +1,6 @@
+#![doc(html_favicon_url = "https://lenna.app/favicon.ico")]
+#![doc = include_str!("../README.md")]
+
 pub mod core;
 pub mod io;
 pub mod plugins;
@@ -9,9 +12,12 @@ pub use crate::core::pool::Pool;
 pub use crate::core::processor::{ExifProcessor, ImageProcessor, Processor};
 pub use crate::core::LennaImage;
 
+/// Version of lib which was used during compile.
 pub static CORE_VERSION: &str = env!("CARGO_PKG_VERSION");
+/// Version of rust compiler which was used during compile.
 pub static RUSTC_VERSION: &str = env!("RUSTC_VERSION");
 
+/// The macro used to generate a plugin.
 #[macro_export]
 macro_rules! export_plugin {
     ($register:expr) => {
@@ -28,8 +34,7 @@ macro_rules! export_plugin {
 
 #[cfg(test)]
 mod tests {
-    use crate::core;
-    use crate::core::processor::Processor;
+    use super::*;
     use crate::io::read::read_from_file;
     use serde_yaml;
 

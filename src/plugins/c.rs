@@ -41,6 +41,7 @@ pub unsafe extern "C" fn lenna_plugin_image(
     img.data.len() as libc::c_int
 }
 
+/// The macro used to generate ffi c api.
 #[macro_export]
 macro_rules! export_c_plugin {
     ($processor:ident) => {

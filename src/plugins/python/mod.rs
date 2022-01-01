@@ -61,6 +61,7 @@ pub fn py_icon(processor: Box<dyn Processor>) -> Option<ndarray::ArrayD<u8>> {
     }
 }
 
+/// The macro used to generate a python module.
 #[macro_export]
 macro_rules! export_python_plugin {
     ($processor:ident) => {

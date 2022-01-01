@@ -4,6 +4,7 @@ use image;
 use img_parts::{jpeg::Jpeg, png::Png, ImageEXIF, ImageICC};
 use std::io::{Cursor, Seek, SeekFrom};
 
+#[cfg(not(target_arch = "wasm32"))]
 pub fn write_to_file(
     image: &LennaImage,
     format: image::ImageOutputFormat,

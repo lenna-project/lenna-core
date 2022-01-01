@@ -23,21 +23,73 @@ cargo test --features=python
 wasm-pack test --node
 ```
 
-![Build](docs/images/build.gif)
+![Build](https://raw.githubusercontent.com/lenna-project/lenna-core/main/docs/images/build.gif)
 
 ## create plugins
 
 ```rust
+use image::DynamicImage;
 use lenna_core::core::processor::Processor;
 use lenna_core::plugins::PluginRegistrar;
+use lenna_core::ImageProcessor;
+use lenna_core::ExifProcessor;
+use lenna_core::ProcessorConfig;
 
 lenna_core::export_plugin!(register);
 
 extern "C" fn register(registrar: &mut dyn PluginRegistrar) {
-    registrar.add_plugin(Box::new(Plugin));
+    registrar.add_plugin(Box::new(Plugin{ config: Config::default() }));
 }
+#[derive(Default, Clone, serde::Serialize, serde::Deserialize)]
+struct Config {
+}
+#[derive(Clone)]
+pub struct Plugin {
+    config: Config
+};
+impl Processor for Plugin {
+    fn name(&self) -> String {
+        "plugin".into()
+    }
 
-pub struct Plugin;
+    fn title(&self) -> String {
+        "Plugin".into()
+    }
+
+    fn author(&self) -> String {
+        "chriamue".into()
+    }
+
+    fn description(&self) -> String {
+        "Plugin description.".into()
+    }
+
+    fn process(
+        &mut self,
+        config: ProcessorConfig,
+        image: &mut Box<lenna_core::LennaImage>,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        self.config = serde_json::from_value(config.config).unwrap();
+        self.process_exif(&mut image.exif).unwrap();
+        self.process_image(&mut image.image).unwrap();
+        Ok(())
+    }
+
+    fn default_config(&self) -> serde_json::Value {
+        serde_json::to_value(Config::default()).unwrap()
+    }
+}
+impl ImageProcessor for Plugin {
+    fn process_image(
+        &self,
+        image: &mut Box<DynamicImage>,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let img = DynamicImage::ImageRgba8(image.to_rgba8());
+        *image = Box::new(img);
+        Ok(())
+    }
+}
+impl ExifProcessor for Plugin {}
 ```
 
 ## 🐍 build python bindings

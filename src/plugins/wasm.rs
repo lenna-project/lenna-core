@@ -1,5 +1,6 @@
 #![cfg(target_arch = "wasm32")]
 
+/// The macro used to generate ffi c api.
 #[macro_export]
 macro_rules! export_wasm_plugin {
     ($processor:ident) => {
