@@ -1,6 +1,8 @@
+//! processors pool
 use super::processor::Processor;
 use super::resize::Resize;
 
+/// pool of processors
 #[derive(Clone)]
 pub struct Pool {
     processors: Vec<Box<dyn Processor>>,

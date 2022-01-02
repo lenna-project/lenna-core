@@ -1,8 +1,10 @@
+//! Processors pipeline
 use super::config::{Config, ProcessorConfig};
 use super::pool::Pool;
 use super::processor::Processor;
 use crate::core::LennaImage;
 
+/// Pipeline to serially run processors
 pub struct Pipeline {
     config: Config,
     pool: Pool,

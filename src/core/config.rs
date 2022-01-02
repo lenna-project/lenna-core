@@ -1,15 +1,21 @@
+//! Config functionalities
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use serde_json::Value;
 
+/// Configuration of a pipeline
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Config {
+    /// pipeline of processor configs
     pub pipeline: Vec<ProcessorConfig>,
 }
 
+/// Processor configuration
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct ProcessorConfig {
+    /// id of processor
     pub id: String,
+    /// configuration for processor
     #[serde(flatten)]
     pub config: Value,
 }

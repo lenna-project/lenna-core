@@ -1,9 +1,11 @@
+//! image processor traits
 use crate::core::config::ProcessorConfig;
 use crate::core::LennaImage;
 use dyn_clone::DynClone;
 use exif::Field;
 use image::DynamicImage;
 
+/// trait for processors
 pub trait Processor: ImageProcessor + ExifProcessor + DynClone {
     fn id(&self) -> String {
         format!("{}_{}", self.name(), self.version())
@@ -30,6 +32,7 @@ pub trait Processor: ImageProcessor + ExifProcessor + DynClone {
     }
 }
 
+/// trait for image processing functionality
 pub trait ImageProcessor {
     fn process_image(
         &self,
@@ -39,6 +42,7 @@ pub trait ImageProcessor {
     }
 }
 
+/// trait for exif metadata processing functionality
 pub trait ExifProcessor {
     fn process_exif(&self, _exif: &mut Box<Vec<Field>>) -> Result<(), Box<dyn std::error::Error>> {
         Ok(())

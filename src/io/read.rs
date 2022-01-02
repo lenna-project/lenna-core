@@ -4,7 +4,7 @@ use exif::{Field, Reader as ExifReader};
 use std::io::Read;
 
 /// read image from file
-/// 
+///
 /// # Example
 /// ```
 /// use lenna_core::io::read::read_from_file;

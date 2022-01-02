@@ -1,3 +1,4 @@
+//! image resize processor
 use super::config::ProcessorConfig;
 use super::processor::{ExifProcessor, ImageProcessor, Processor};
 use crate::core::LennaImage;
@@ -6,15 +7,19 @@ use image::DynamicImage;
 use serde::{Deserialize, Serialize};
 use std::include_bytes;
 
+/// Image resize processor
 #[repr(C)]
 #[derive(Default, Clone)]
 pub struct Resize {
     config: Config,
 }
 
+/// Config for resize plugin
 #[derive(Clone, Serialize, Deserialize)]
 struct Config {
+    /// configuration of target width
     width: u32,
+    /// configuration of target height
     height: u32,
 }
 
