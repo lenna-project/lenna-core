@@ -70,9 +70,13 @@
 <span id="70">70</span>
 <span id="71">71</span>
 <span id="72">72</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::processor::Processor</span>;
+<span id="73">73</span>
+<span id="74">74</span>
+</pre><pre class="rust"><code><span class="doccomment">//! processors pool</span>
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::processor::Processor</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::resize::Resize</span>;
 
+<span class="doccomment">/// pool of processors</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Pool</span> {
     <span class="ident">processors</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">Processor</span><span class="op">&gt;</span><span class="op">&gt;</span>,

@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Pool",""]]});
+initSidebarItems({"struct":[["Pool","pool of processors"]]});

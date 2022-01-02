@@ -1,1 +1,1 @@
-initSidebarItems({"trait":[["ExifProcessor",""],["ImageProcessor",""],["Processor",""]]});
+initSidebarItems({"trait":[["ExifProcessor","trait for exif metadata processing functionality"],["ImageProcessor","trait for image processing functionality"],["Processor","trait for processors"]]});

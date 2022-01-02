@@ -121,7 +121,13 @@
 <span id="121">121</span>
 <span id="122">122</span>
 <span id="123">123</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::config::ProcessorConfig</span>;
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+</pre><pre class="rust"><code><span class="doccomment">//! image resize processor</span>
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::config::ProcessorConfig</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::processor</span>::{<span class="ident">ExifProcessor</span>, <span class="ident">ImageProcessor</span>, <span class="ident">Processor</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::core::LennaImage</span>;
 <span class="kw">use</span> <span class="ident">exif</span>::{<span class="ident">Field</span>, <span class="ident">In</span>, <span class="ident">Tag</span>, <span class="ident">Value</span>};
@@ -129,15 +135,19 @@
 <span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">std::include_bytes</span>;
 
+<span class="doccomment">/// Image resize processor</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Default</span>, <span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Resize</span> {
     <span class="ident">config</span>: <span class="ident">Config</span>,
 }
 
+<span class="doccomment">/// Config for resize plugin</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="kw">struct</span> <span class="ident">Config</span> {
+    <span class="doccomment">/// configuration of target width</span>
     <span class="ident">width</span>: <span class="ident">u32</span>,
+    <span class="doccomment">/// configuration of target height</span>
     <span class="ident">height</span>: <span class="ident">u32</span>,
 }
 

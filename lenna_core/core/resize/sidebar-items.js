@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Resize",""]]});
+initSidebarItems({"struct":[["Resize","Image resize processor"]]});

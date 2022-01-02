@@ -46,12 +46,18 @@
 <span id="46">46</span>
 <span id="47">47</span>
 <span id="48">48</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::core::config::ProcessorConfig</span>;
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+</pre><pre class="rust"><code><span class="doccomment">//! image processor traits</span>
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::core::config::ProcessorConfig</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::core::LennaImage</span>;
 <span class="kw">use</span> <span class="ident">dyn_clone::DynClone</span>;
 <span class="kw">use</span> <span class="ident">exif::Field</span>;
 <span class="kw">use</span> <span class="ident">image::DynamicImage</span>;
 
+<span class="doccomment">/// trait for processors</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Processor</span>: <span class="ident">ImageProcessor</span> <span class="op">+</span> <span class="ident">ExifProcessor</span> <span class="op">+</span> <span class="ident">DynClone</span> {
     <span class="kw">fn</span> <span class="ident">id</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">String</span> {
         <span class="macro">format!</span>(<span class="string">&quot;{}_{}&quot;</span>, <span class="self">self</span>.<span class="ident">name</span>(), <span class="self">self</span>.<span class="ident">version</span>())
@@ -78,6 +84,7 @@
     }
 }
 
+<span class="doccomment">/// trait for image processing functionality</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ImageProcessor</span> {
     <span class="kw">fn</span> <span class="ident">process_image</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
@@ -87,6 +94,7 @@
     }
 }
 
+<span class="doccomment">/// trait for exif metadata processing functionality</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ExifProcessor</span> {
     <span class="kw">fn</span> <span class="ident">process_exif</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">_exif</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Field</span><span class="op">&gt;</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">Box</span><span class="op">&lt;</span><span class="kw">dyn</span> <span class="ident">std::error::Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="prelude-val">Ok</span>(())

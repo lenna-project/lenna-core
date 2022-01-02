@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Config",""],["ProcessorConfig",""]]});
+initSidebarItems({"struct":[["Config","Configuration of a pipeline"],["ProcessorConfig","Processor configuration"]]});

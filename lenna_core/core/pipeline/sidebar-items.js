@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Pipeline",""]]});
+initSidebarItems({"struct":[["Pipeline","Pipeline to serially run processors"]]});

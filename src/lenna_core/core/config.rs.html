@@ -89,18 +89,30 @@
 <span id="89">89</span>
 <span id="90">90</span>
 <span id="91">91</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Config functionalities</span>
+<span class="kw">use</span> <span class="ident">serde</span>::{<span class="ident">Deserialize</span>, <span class="ident">Serialize</span>};
 <span class="kw">use</span> <span class="ident">serde_json::json</span>;
 <span class="kw">use</span> <span class="ident">serde_json::Value</span>;
 
+<span class="doccomment">/// Configuration of a pipeline</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Config</span> {
+    <span class="doccomment">/// pipeline of processor configs</span>
     <span class="kw">pub</span> <span class="ident">pipeline</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ProcessorConfig</span><span class="op">&gt;</span>,
 }
 
+<span class="doccomment">/// Processor configuration</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Serialize</span>, <span class="ident">Deserialize</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ProcessorConfig</span> {
+    <span class="doccomment">/// id of processor</span>
     <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">String</span>,
+    <span class="doccomment">/// configuration for processor</span>
     <span class="attribute">#[<span class="ident">serde</span>(<span class="ident">flatten</span>)]</span>
     <span class="kw">pub</span> <span class="ident">config</span>: <span class="ident">Value</span>,
 }

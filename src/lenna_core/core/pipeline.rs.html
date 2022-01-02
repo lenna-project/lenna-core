@@ -56,11 +56,15 @@
 <span id="56">56</span>
 <span id="57">57</span>
 <span id="58">58</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::config</span>::{<span class="ident">Config</span>, <span class="ident">ProcessorConfig</span>};
+<span id="59">59</span>
+<span id="60">60</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Processors pipeline</span>
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::config</span>::{<span class="ident">Config</span>, <span class="ident">ProcessorConfig</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::pool::Pool</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::processor::Processor</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::core::LennaImage</span>;
 
+<span class="doccomment">/// Pipeline to serially run processors</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Pipeline</span> {
     <span class="ident">config</span>: <span class="ident">Config</span>,
     <span class="ident">pool</span>: <span class="ident">Pool</span>,
