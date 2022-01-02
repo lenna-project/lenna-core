@@ -41,6 +41,7 @@ wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
 libc = "0.2"
 
 [dev-dependencies]
+criterion = "0.3"
 wasm-bindgen-test = "0.3"
 
 [build-dependencies]
@@ -52,3 +53,7 @@ classifiers = ["Programming Language :: Python"]
 requires-dist = ["numpy"]
 
 #exclude = [".github/*"]
+
+[[bench]]
+name = "lenna_benchmark"
+harness = false
