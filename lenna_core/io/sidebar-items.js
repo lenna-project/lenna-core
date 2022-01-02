@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["read",""],["write",""]]});
+initSidebarItems({"mod":[["read","input functions"],["write","output functions"]]});

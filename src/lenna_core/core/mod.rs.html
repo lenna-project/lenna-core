@@ -35,7 +35,14 @@
 <span id="35">35</span>
 <span id="36">36</span>
 <span id="37">37</span>
-</pre><pre class="rust"><code><span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">config</span>;
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+</pre><pre class="rust"><code><span class="doccomment">//! core functionalities</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">config</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">pipeline</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">pool</span>;
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">processor</span>;
@@ -44,10 +51,15 @@
 <span class="kw">use</span> <span class="ident">exif::Field</span>;
 <span class="kw">use</span> <span class="ident">image::DynamicImage</span>;
 
+<span class="doccomment">/// image struct</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">LennaImage</span> {
+    <span class="doccomment">/// name of image, also used as filename</span>
     <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">String</span>,
+    <span class="doccomment">/// image data container</span>
     <span class="kw">pub</span> <span class="ident">image</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">DynamicImage</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// path, also folder for image when saved</span>
     <span class="kw">pub</span> <span class="ident">path</span>: <span class="ident">String</span>,
+    <span class="doccomment">/// image meta data</span>
     <span class="kw">pub</span> <span class="ident">exif</span>: <span class="ident">Box</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Field</span><span class="op">&gt;</span><span class="op">&gt;</span>,
 }
 

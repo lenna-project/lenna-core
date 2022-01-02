@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["config",""],["pipeline",""],["pool",""],["processor",""],["resize",""]],"struct":[["LennaImage",""]]});
+initSidebarItems({"mod":[["config",""],["pipeline",""],["pool",""],["processor",""],["resize",""]],"struct":[["LennaImage","image struct"]]});
