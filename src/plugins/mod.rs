@@ -1,3 +1,4 @@
+//! plugin related functionalities
 use crate::core::pool::Pool;
 use crate::core::processor::Processor;
 

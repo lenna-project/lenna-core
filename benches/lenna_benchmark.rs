@@ -2,7 +2,7 @@ use criterion::{criterion_group, criterion_main, Criterion};
 use lenna_core::core::config::Config;
 use lenna_core::core::pipeline::Pipeline;
 use lenna_core::core::pool::Pool;
-use lenna_core::core::{pool, LennaImage};
+use lenna_core::core::LennaImage;
 use lenna_core::io::read::read_from_file;
 use serde_json::json;
 

@@ -1,7 +1,17 @@
+//! input functions
 use crate::core::LennaImage;
-
 use exif::{Field, Reader as ExifReader};
 use std::io::Read;
+
+/// read image from file
+/// 
+/// # Example
+/// ```
+/// use lenna_core::io::read::read_from_file;
+/// let image = read_from_file("lenna.png".into()).unwrap();
+/// assert_eq!(image.exif.len(), 0);
+/// assert_eq!(image.name, "lenna".to_string());
+/// ```
 
 #[cfg(not(target_arch = "wasm32"))]
 pub fn read_from_file(path: String) -> Result<LennaImage, Box<dyn std::error::Error>> {

@@ -1,3 +1,4 @@
+//! output functions
 use crate::core::LennaImage;
 use exif::{experimental::Writer as ExifWriter, Field, Tag};
 use image;
