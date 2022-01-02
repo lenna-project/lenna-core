@@ -44,3 +44,15 @@ impl Default for Pipeline {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn default() {
+        let pipeline = Pipeline::default();
+        let mut image = Box::new(LennaImage::default());
+        pipeline.run(&mut image).unwrap();
+    }
+}
