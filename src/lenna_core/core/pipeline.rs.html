@@ -44,6 +44,18 @@
 <span id="44">44</span>
 <span id="45">45</span>
 <span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::config</span>::{<span class="ident">Config</span>, <span class="ident">ProcessorConfig</span>};
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::pool::Pool</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::processor::Processor</span>;
@@ -88,6 +100,18 @@
             <span class="ident">config</span>: <span class="ident">Config::default</span>(),
             <span class="ident">pool</span>: <span class="ident">Pool::default</span>(),
         }
+    }
+}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
+<span class="kw">mod</span> <span class="ident">tests</span> {
+    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+
+    <span class="attribute">#[<span class="ident">test</span>]</span>
+    <span class="kw">fn</span> <span class="ident">default</span>() {
+        <span class="kw">let</span> <span class="ident">pipeline</span> <span class="op">=</span> <span class="ident">Pipeline::default</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">image</span> <span class="op">=</span> <span class="ident">Box::new</span>(<span class="ident">LennaImage::default</span>());
+        <span class="ident">pipeline</span>.<span class="ident">run</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">image</span>).<span class="ident">unwrap</span>();
     }
 }
 </code></pre></div>
