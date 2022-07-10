@@ -1,6 +1,6 @@
 [package]
 name = "lenna_core"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Christian <chriamue@gmail.com>"]
 edition = "2021"
 description = "Lenna is a library for image processing algorithms and apps."
@@ -36,17 +36,21 @@ pythonize = { version = "0.15", optional = true }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 serde_yaml = "0.8.17"
-console_error_panic_hook = "0.1.6"
-wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
 libc = "0.2"
 
 [dev-dependencies]
 criterion = "0.3"
-wasm-bindgen-test = "0.3"
 
 [build-dependencies]
 rustc_version = "0.4"
 cbindgen = "0.19"
+
+[target.wasm32-unknown-unknown.dependencies]
+console_error_panic_hook = "0.1.6"
+wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
+
+[target.wasm32-unknown-unknown.dev-dependencies]
+wasm-bindgen-test = "0.3"
 
 [package.metadata.maturin]
 classifiers = ["Programming Language :: Python"]

@@ -53,6 +53,7 @@ pub fn read_from_data(data: Vec<u8>) -> Result<LennaImage, Box<dyn std::error::E
 mod tests {
     use super::*;
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[test]
     fn read_file() {
         let image = read_from_file("lenna.png".into()).unwrap();
@@ -61,6 +62,7 @@ mod tests {
         assert_eq!(image.path, "".to_string());
     }
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[test]
     fn read_non_existend_file() {
         let image = read_from_file("lennaa.png".into());

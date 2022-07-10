@@ -35,6 +35,7 @@ macro_rules! export_plugin {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[cfg(not(target_arch = "wasm32"))]
     use crate::io::read::read_from_file;
     use serde_yaml;
 
@@ -49,6 +50,7 @@ mod tests {
         assert!(pool.get(&name).is_some());
     }
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[test]
     fn pipeline() {
         let config_file = std::fs::File::open("lenna.yml").unwrap();

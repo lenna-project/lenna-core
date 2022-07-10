@@ -86,9 +86,11 @@ pub fn write_to_data(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[cfg(not(target_arch = "wasm32"))]
     use crate::io::read::read_from_file;
     use exif::{Field, In, Tag, Value};
 
+    #[cfg(not(target_arch = "wasm32"))]
     #[test]
     fn write_file() {
         let mut image = read_from_file("lenna.png".into()).unwrap();

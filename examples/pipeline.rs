@@ -1,10 +1,14 @@
 use lenna_core::core::config::Config;
 use lenna_core::core::pipeline::Pipeline;
 use lenna_core::core::pool::Pool;
+
+#[cfg(not(target_arch = "wasm32"))]
 use lenna_core::io::read::read_from_file;
+#[cfg(not(target_arch = "wasm32"))]
 use lenna_core::io::write::write_to_file;
 use serde_json::json;
 
+#[cfg(not(target_arch = "wasm32"))]
 fn main() {
     println!("This example loads an image, resizes it in a pipeline and saves it.");
     let mut image = Box::new(read_from_file("lenna.png".into()).unwrap());
@@ -21,3 +25,6 @@ fn main() {
     image.name = "lenna_example_write".to_string();
     write_to_file(&image, image::ImageOutputFormat::Jpeg(90)).unwrap();
 }
+
+#[cfg(target_arch = "wasm32")]
+fn main() {}
