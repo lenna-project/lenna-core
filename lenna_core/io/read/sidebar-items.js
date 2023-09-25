@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["read_from_data",""],["read_from_file","read image from file"]]});
+window.SIDEBAR_ITEMS = {"fn":["read_from_data","read_from_file"]};

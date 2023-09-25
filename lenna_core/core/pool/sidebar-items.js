@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Pool","pool of processors"]]});
+window.SIDEBAR_ITEMS = {"struct":["Pool"]};

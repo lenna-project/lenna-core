@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Config","Configuration of a pipeline"],["ProcessorConfig","Processor configuration"]]});
+window.SIDEBAR_ITEMS = {"struct":["Config","ProcessorConfig"]};

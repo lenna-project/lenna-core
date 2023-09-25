@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["read","input functions"],["write","output functions"]]});
+window.SIDEBAR_ITEMS = {"mod":["read","write"]};

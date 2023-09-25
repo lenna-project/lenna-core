@@ -1,3 +1,4 @@
-var sourcesIndex = {};
-sourcesIndex["lenna_core"] = {"name":"","dirs":[{"name":"core","files":["config.rs","mod.rs","pipeline.rs","pool.rs","processor.rs","resize.rs"]},{"name":"io","files":["mod.rs","read.rs","write.rs"]},{"name":"plugins","files":["c.rs","mod.rs"]}],"files":["lib.rs"]};
+var sourcesIndex = JSON.parse('{\
+"lenna_core":["",[["core",[],["config.rs","mod.rs","pipeline.rs","pool.rs","processor.rs","resize.rs"]],["io",[],["mod.rs","read.rs","write.rs"]],["plugins",[],["c.rs","mod.rs"]]],["lib.rs"]]\
+}');
 createSourceSidebar();

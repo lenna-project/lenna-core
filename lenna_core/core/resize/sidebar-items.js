@@ -1,1 +1,1 @@
-initSidebarItems({"struct":[["Resize","Image resize processor"]]});
+window.SIDEBAR_ITEMS = {"struct":["Resize"]};

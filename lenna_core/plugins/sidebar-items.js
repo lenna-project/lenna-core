@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["c",""]],"struct":[["PluginDeclaration",""]],"trait":[["PluginRegistrar",""]]});
+window.SIDEBAR_ITEMS = {"mod":["c"],"struct":["PluginDeclaration"],"trait":["PluginRegistrar"]};
