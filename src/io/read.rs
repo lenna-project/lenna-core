@@ -12,7 +12,6 @@ use std::io::Read;
 /// assert_eq!(image.exif.len(), 0);
 /// assert_eq!(image.name, "lenna".to_string());
 /// ```
-
 #[cfg(not(target_arch = "wasm32"))]
 pub fn read_from_file(path: String) -> Result<LennaImage, Box<dyn std::error::Error>> {
     let path = std::path::Path::new(&path);

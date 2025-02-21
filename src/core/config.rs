@@ -37,7 +37,7 @@ impl Config {
     pub fn find(&self, id: String) -> Option<&ProcessorConfig> {
         let config = self.pipeline.iter().find(|&c| c.id == id);
         match config {
-            Some(config) => Some(&config),
+            Some(config) => Some(config),
             _ => None,
         }
     }

@@ -32,7 +32,8 @@ pub fn write_to_data(
     let img = &image.image;
     let mut image_data: Vec<u8> = Vec::new();
 
-    img.write_to(&mut Cursor::new(&mut image_data), format.clone()).unwrap();
+    img.write_to(&mut Cursor::new(&mut image_data), format.clone())
+        .unwrap();
     let mut thumbnail = Vec::<u8>::new();
 
     match image.exif.len() {
@@ -53,7 +54,7 @@ pub fn write_to_data(
                             thumbnail = data.to_vec();
                         }
                     }
-                    _ => exif_writer.push_field(&f),
+                    _ => exif_writer.push_field(f),
                 };
             }
             if !thumbnail.is_empty() {

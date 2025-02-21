@@ -14,17 +14,15 @@ impl Pool {
     }
 
     pub fn get(&self, id_or_name: &str) -> Option<Box<dyn Processor>> {
-        for processor in self.processors.to_vec() {
+        for processor in self.processors.iter().cloned() {
             if processor.id() == id_or_name {
                 return Some(processor);
             }
         }
-        for processor in self.processors.to_vec() {
-            if processor.name() == id_or_name {
-                return Some(processor);
-            }
-        }
-        None
+        self.processors
+            .iter()
+            .find(|&processor| processor.name() == id_or_name)
+            .cloned()
     }
 
     pub fn ids(&self) -> Vec<String> {

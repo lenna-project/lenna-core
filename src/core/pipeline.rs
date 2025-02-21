@@ -5,6 +5,7 @@ use super::processor::Processor;
 use crate::core::LennaImage;
 
 /// Pipeline to serially run processors
+#[derive(Default)]
 pub struct Pipeline {
     config: Config,
     pool: Pool,
@@ -34,15 +35,6 @@ impl Pipeline {
         match processor {
             Some(mut processor) => processor.process(config, image),
             _ => Ok(()),
-        }
-    }
-}
-
-impl Default for Pipeline {
-    fn default() -> Self {
-        Pipeline {
-            config: Config::default(),
-            pool: Pool::default(),
         }
     }
 }

@@ -6,6 +6,7 @@ use crate::core::processor::Processor;
 pub struct PluginDeclaration {
     pub rustc_version: &'static str,
     pub core_version: &'static str,
+    #[allow(improper_ctypes_definitions)]
     pub register: unsafe extern "C" fn(&mut dyn PluginRegistrar),
 }
 

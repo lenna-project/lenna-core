@@ -2,7 +2,13 @@ pub struct LennaImageBuffer {
     pub data: Vec<u8>,
 }
 
-// source: https://michael-f-bryan.github.io/rust-ffi-guide/send_basic.html
+/// Destroys a LennaImageBuffer instance
+///
+/// # Safety
+///
+/// - `img` must be a valid pointer to a LennaImageBuffer instance
+/// - The pointer must have been created by Box::into_raw()
+/// - After this call, the pointer must not be used
 #[no_mangle]
 pub unsafe extern "C" fn lenna_plugin_image_destroy(img: *mut LennaImageBuffer) {
     if !img.is_null() {
@@ -10,15 +16,29 @@ pub unsafe extern "C" fn lenna_plugin_image_destroy(img: *mut LennaImageBuffer) 
     }
 }
 
+/// Gets the length of the image buffer data
+///
+/// # Safety
+///
+/// - `img` must be a valid pointer to a LennaImageBuffer instance
+/// - The pointer must remain valid for the duration of this function call
 #[no_mangle]
 pub unsafe extern "C" fn lenna_plugin_image_length(img: *const LennaImageBuffer) -> libc::size_t {
     if img.is_null() {
         return 0;
     }
 
-    (&*img).data.len() as libc::size_t
+    (*img).data.len() as libc::size_t
 }
 
+/// Copies image data into the provided buffer
+///
+/// # Safety
+///
+/// - `img` must be a valid pointer to a LennaImageBuffer instance
+/// - `buffer` must be a valid pointer to a buffer of at least `length` bytes
+/// - Both pointers must remain valid for the duration of the copy
+/// - The buffer must be large enough to hold the image data
 #[no_mangle]
 pub unsafe extern "C" fn lenna_plugin_image(
     img: *const LennaImageBuffer,
@@ -30,7 +50,7 @@ pub unsafe extern "C" fn lenna_plugin_image(
     }
 
     let img = &*img;
-    let buffer: &mut [u8] = std::slice::from_raw_parts_mut(buffer as *mut u8, length as usize);
+    let buffer: &mut [u8] = std::slice::from_raw_parts_mut(buffer as *mut u8, length);
 
     if buffer.len() < img.data.len() {
         return -1;
