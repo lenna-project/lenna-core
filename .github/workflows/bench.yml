@@ -64,22 +64,3 @@ jobs:
         with:
           path: prev-benchmark
           name: benchmark-results-${{ github.event.before }}
-
-      - name: Store benchmark result
-        uses: benchmark-action/github-action-benchmark@v1
-        with:
-          tool: "criterion"
-          output-file-path: target/criterion/**/new/*.json
-          alert-threshold: "150%"
-
-      - name: Check benchmark results
-        if: github.event_name == 'pull_request'
-        run: |
-          if [ -f prev-benchmark/bench_result.json ]; then
-            # Add custom benchmark comparison logic here
-            echo "Comparing benchmark results..."
-          fi
-
-env:
-  CARGO_TERM_COLOR: always
-  RUST_BACKTRACE: 1

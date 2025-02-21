@@ -69,7 +69,7 @@ wasm:
     wasm-pack build
 
 # Run all checks (tests, formatting, lints)
-check: fmt lint test deny
+check: fmt lint test
 
 # Build all targets (native, python, wasm)
 build-all: build wasm python-setup

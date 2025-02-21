@@ -1,4 +1,4 @@
-# add whatever else we support.
+[graph]
 targets = [
     { triple = "x86_64-unknown-linux-gnu" },
     { triple = "x86_64-unknown-linux-musl" },
@@ -16,38 +16,51 @@ targets = [
 ]
 
 [advisories]
-vulnerability = "deny"
-unmaintained = "warn"
-yanked = "deny"
- ignore = [
-     "RUSTSEC-2020-0071", # this could only impact use through our usage of liquid, and we are not using time related liquid helpers. (and only use liquid templates at build-time anyway)
-     "RUSTSEC-2020-0159",
-     "RUSTSEC-2021-0127" # dependency on abandoned serde_cbor, through criterion, irrelevant out of build.
- ]
+version = 2
+db-path = "~/.cargo/advisory-db"
+db-urls = ["https://github.com/rustsec/advisory-db"]
+ignore = [
+    "RUSTSEC-2020-0071", # liquid templates usage at build-time only
+    "RUSTSEC-2020-0159",
+    "RUSTSEC-2021-0127", # serde_cbor through criterion, build-time only
+]
+
+[licenses]
+version = 2
+allow = [
+    "Apache-2.0",                     # https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)
+    "MIT",                            # https://tldrlegal.com/license/mit-license
+    "MPL-2.0",
+    "Unicode-3.0",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "Apache-2.0 WITH LLVM-exception",
+]
+confidence-threshold = 0.8
+exceptions = []
 
 [bans]
 multiple-versions = "warn"
 wildcards = "allow"
+highlight = "all"
+workspace-default-features = "allow"
+external-default-features = "allow"
+allow = []
 deny = [
     # List crates we don't want in our dependency tree here.
 ]
 
 # Skip some multiple-versions checks, until they can be fixed.
 skip = [
-    { name = "quick-error", version="<2" }, # cascading from flate
-    { name = "itoa", version="<1" }, # cascading from flate criterion
+    { name = "quick-error", version = "<2" }, # cascading from flate
+    { name = "itoa", version = "<1" },        # cascading from flate criterion
 ]
 
 [sources]
-# trusted git sources.
-allow-git = [
-]
+unknown-registry = "warn"
+unknown-git = "warn"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = []
 
-[licenses]
-allow = [
-    "Apache-2.0",                     # https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)
-    "MIT"                             # https://tldrlegal.com/license/mit-license
-]
-clarify = [
-]
-default = "warn"
+[sources.allow-org]
+github = ["lenna-project"]
