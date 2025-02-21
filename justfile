@@ -54,7 +54,7 @@ coverage:
 
 # Check dependencies with cargo-deny
 deny:
-    cargo deny check --all-features
+    cargo deny --all-features check
 
 # Format code
 fmt:
