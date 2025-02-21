@@ -188,7 +188,10 @@
 <a href="#187" id="187">187</a>
 <a href="#188" id="188">188</a>
 <a href="#189" id="189">189</a>
-<a href="#190" id="190">190</a></pre></div><pre class="rust"><code><span class="kw">pub struct </span>LennaImageBuffer {
+<a href="#190" id="190">190</a>
+<a href="#191" id="191">191</a>
+<a href="#192" id="192">192</a>
+<a href="#193" id="193">193</a></pre></div><pre class="rust"><code><span class="kw">pub struct </span>LennaImageBuffer {
     <span class="kw">pub </span>data: Vec&lt;u8&gt;,
 }
 
@@ -340,6 +343,9 @@
         </span><span class="kw">pub unsafe extern </span><span class="string">"C" </span><span class="kw">fn </span>lenna_plugin_process_base64(
             b64img: <span class="kw-2">*const </span>std::os::raw::c_char,
         ) -&gt; <span class="kw-2">*const </span>std::os::raw::c_char {
+            <span class="kw">use </span>base64::engine::general_purpose::STANDARD;
+            <span class="kw">use </span>base64::Engine;
+
             <span class="kw">let </span><span class="kw-2">mut </span>processor = <span class="macro-nonterminal">$processor::default</span>();
             <span class="kw">let </span>config: <span class="macro-nonterminal">$crate::core::config::ProcessorConfig </span>=
                 <span class="macro-nonterminal">$crate::core::config::ProcessorConfig </span>{
@@ -348,7 +354,7 @@
                 };
 
             <span class="kw">let </span>data = std::ffi::CStr::from_ptr(b64img).to_str().unwrap();
-            <span class="kw">let </span>buffer: Vec&lt;u8&gt; = base64::decode(data).unwrap();
+            <span class="kw">let </span>buffer: Vec&lt;u8&gt; = STANDARD.decode(data).unwrap();
             <span class="kw">let </span>img = <span class="macro-nonterminal">$crate::io::read::read_from_data</span>(buffer).unwrap();
 
             <span class="kw">let </span><span class="kw-2">mut </span>lenna_img = Box::new(img);
@@ -359,7 +365,7 @@
                 <span class="macro-nonterminal">$crate::io::write::write_to_data</span>(<span class="kw-2">&amp;</span>lenna_img, image::ImageOutputFormat::Png)
                     .unwrap();
 
-            <span class="kw">let </span>b64img = base64::encode(out_data);
+            <span class="kw">let </span>b64img = STANDARD.encode(out_data);
 
             std::ffi::CString::new(b64img).unwrap().into_raw()
         }
