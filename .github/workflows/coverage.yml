@@ -1,23 +1,85 @@
-name: coverage
+name: Code Coverage
 
-on: [push]
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Allow manual triggering
+  workflow_dispatch:
+
 jobs:
-  test:
-    name: coverage
+  coverage:
+    name: Generate coverage report
     runs-on: ubuntu-latest
     container:
       image: xd009642/tarpaulin:develop-nightly
       options: --security-opt seccomp=unconfined
+
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup rust cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: "coverage-cache"
 
       - name: Generate code coverage
         run: |
-          cargo +nightly tarpaulin --verbose --workspace --timeout 120 --out Xml
+          cargo +nightly tarpaulin \
+            --verbose \
+            --workspace \
+            --timeout 300 \
+            --out Xml \
+            --out Html \
+            --out Json \
+            --fail-under 60 \
+            --exclude-files 'tests/*' \
+            -- \
+            --test-threads 2
 
-      - name: Upload to codecov.io
-        uses: codecov/codecov-action@v2
+      - uses: codecov/codecov-action@v3
         with:
-          # token:                ${{secrets.CODECOV_TOKEN}} # not required for public repos
           fail_ci_if_error: true
+
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage-report
+          path: |
+            cobertura.xml
+            tarpaulin-report.html
+            coverage.json
+          retention-days: 14
+
+      - name: Create Coverage Comment
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          recreate: true
+          path: coverage.json
+          message: |
+            ### Code Coverage Report 📊
+
+            Coverage report for commit ${{ github.sha }}
+
+            <details>
+            <summary>Coverage Details</summary>
+
+            ```
+            ${{ steps.coverage.outputs.report }}
+            ```
+
+            </details>
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: full
+  RUST_LOG: debug
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
