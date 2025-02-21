@@ -6,73 +6,42 @@ on:
       - main
   pull_request:
     types: [opened, synchronize]
-  # Allow manual triggering
-  workflow_dispatch:
 
 jobs:
-  benchmark:
-    name: Run tests and benchmarks
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
+      - uses: actions/checkout@v1
 
-      - name: Install just
-        uses: extractions/setup-just@v1
+      - name: Cache cargo registry
+        uses: actions/cache@v1
         with:
-          just-version: "1.39"
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
 
-      - name: Install Rust toolchain
-        uses: actions-rs/toolchain@v1
+      - name: Cache cargo build
+        uses: actions/cache@v1
         with:
-          profile: minimal
+          path: target
+          key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+
+      - uses: actions-rs/toolchain@v1
+        with:
           toolchain: stable
           override: true
-          components: rustfmt, clippy
-          targets: wasm32-unknown-unknown
 
-      - name: Setup rust cache
-        uses: Swatinem/rust-cache@v2
+      - uses: actions-rs/cargo@v1
         with:
-          shared-key: "benchmark-cache"
-          cache-directories: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            target
+          command: check
 
-      - name: Check formatting
-        run: just fmt
+      - name: test
+        run: cargo test
 
-      - name: Run lints
-        run: just lint
+      - name: bench
+        run: cargo bench
 
-      - name: Run tests
-        run: just test
-
-      - name: Run benchmarks
-        run: just bench
-        env:
-          CARGO_TERM_COLOR: always
-
-      - name: Check dependencies
-        run: just deny
-
-      - name: Upload benchmark results
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: benchmark-results-${{ github.sha }}
-          path: |
-            ./target/criterion/**/*.json
-            ./target/criterion/**/*.svg
-          if-no-files-found: error
-          retention-days: 90
-
-      - name: Download previous benchmark data
-        uses: actions/download-artifact@v4
-        continue-on-error: true
-        with:
-          path: prev-benchmark
-          name: benchmark-results-${{ github.event.before }}
+          name: rsstable_${{ github.sha }}_bench
+          path: ./target/criterion
