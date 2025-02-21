@@ -150,6 +150,9 @@ macro_rules! export_c_plugin {
         pub unsafe extern "C" fn lenna_plugin_process_base64(
             b64img: *const std::os::raw::c_char,
         ) -> *const std::os::raw::c_char {
+            use base64::engine::general_purpose::STANDARD;
+            use base64::Engine;
+
             let mut processor = $processor::default();
             let config: $crate::core::config::ProcessorConfig =
                 $crate::core::config::ProcessorConfig {
@@ -158,7 +161,7 @@ macro_rules! export_c_plugin {
                 };
 
             let data = std::ffi::CStr::from_ptr(b64img).to_str().unwrap();
-            let buffer: Vec<u8> = base64::decode(data).unwrap();
+            let buffer: Vec<u8> = STANDARD.decode(data).unwrap();
             let img = $crate::io::read::read_from_data(buffer).unwrap();
 
             let mut lenna_img = Box::new(img);
@@ -169,7 +172,7 @@ macro_rules! export_c_plugin {
                 $crate::io::write::write_to_data(&lenna_img, image::ImageOutputFormat::Png)
                     .unwrap();
 
-            let b64img = base64::encode(out_data);
+            let b64img = STANDARD.encode(out_data);
 
             std::ffi::CString::new(b64img).unwrap().into_raw()
         }
