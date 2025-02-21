@@ -6,42 +6,80 @@ on:
       - main
   pull_request:
     types: [opened, synchronize]
+  # Allow manual triggering
+  workflow_dispatch:
 
 jobs:
-  build:
+  benchmark:
+    name: Run tests and benchmarks
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
-
-      - name: Cache cargo registry
-        uses: actions/cache@v1
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          path: ~/.cargo/registry
-          key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+          fetch-depth: 1
 
-      - name: Cache cargo build
-        uses: actions/cache@v1
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
         with:
-          path: target
-          key: ${{ runner.os }}-cargo-build-target-${{ hashFiles('**/Cargo.lock') }}
+          components: rustfmt, clippy
 
-      - uses: actions-rs/toolchain@v1
+      - name: Setup rust cache
+        uses: Swatinem/rust-cache@v2
         with:
-          toolchain: stable
-          override: true
+          shared-key: "benchmark-cache"
+          cache-directories: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
 
-      - uses: actions-rs/cargo@v1.0.1
-        with:
-          command: check
+      - name: Check formatting
+        run: cargo fmt --all -- --check
 
-      - name: test
-        run: cargo test
+      - name: Run clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
 
-      - name: bench
+      - name: Run tests
+        run: cargo test --all-features
+
+      - name: Run benchmarks
         run: cargo bench
+        env:
+          CARGO_TERM_COLOR: always
 
-      - uses: actions/upload-artifact@v1
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v4
         with:
-          name: rsstable_${{ github.sha }}_bench
-          path: ./target/criterion
+          name: benchmark-results-${{ github.sha }}
+          path: |
+            ./target/criterion/**/*.json
+            ./target/criterion/**/*.svg
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Download previous benchmark data
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          path: prev-benchmark
+          name: benchmark-results-${{ github.event.before }}
+
+      - name: Store benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          tool: "criterion"
+          output-file-path: target/criterion/**/new/*.json
+          alert-threshold: "150%"
+
+      - name: Check benchmark results
+        if: github.event_name == 'pull_request'
+        run: |
+          if [ -f prev-benchmark/bench_result.json ]; then
+            # Add custom benchmark comparison logic here
+            echo "Comparing benchmark results..."
+          fi
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
