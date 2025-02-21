@@ -68,8 +68,7 @@
 <a href="#67" id="67">67</a>
 <a href="#68" id="68">68</a>
 <a href="#69" id="69">69</a>
-<a href="#70" id="70">70</a>
-<a href="#71" id="71">71</a></pre></div><pre class="rust"><code><span class="doccomment">//! input functions
+<a href="#70" id="70">70</a></pre></div><pre class="rust"><code><span class="doccomment">//! input functions
 </span><span class="kw">use </span><span class="kw">crate</span>::core::LennaImage;
 <span class="kw">use </span>exif::{Field, Reader <span class="kw">as </span>ExifReader};
 <span class="kw">use </span>std::io::Read;
@@ -83,7 +82,6 @@
 /// assert_eq!(image.exif.len(), 0);
 /// assert_eq!(image.name, "lenna".to_string());
 /// ```
-
 </span><span class="attr">#[cfg(not(target_arch = <span class="string">"wasm32"</span>))]
 </span><span class="kw">pub fn </span>read_from_file(path: String) -&gt; <span class="prelude-ty">Result</span>&lt;LennaImage, Box&lt;<span class="kw">dyn </span>std::error::Error&gt;&gt; {
     <span class="kw">let </span>path = std::path::Path::new(<span class="kw-2">&amp;</span>path);

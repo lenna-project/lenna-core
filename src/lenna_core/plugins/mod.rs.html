@@ -26,7 +26,8 @@
 <a href="#25" id="25">25</a>
 <a href="#26" id="26">26</a>
 <a href="#27" id="27">27</a>
-<a href="#28" id="28">28</a></pre></div><pre class="rust"><code><span class="doccomment">//! plugin related functionalities
+<a href="#28" id="28">28</a>
+<a href="#29" id="29">29</a></pre></div><pre class="rust"><code><span class="doccomment">//! plugin related functionalities
 </span><span class="kw">use </span><span class="kw">crate</span>::core::pool::Pool;
 <span class="kw">use </span><span class="kw">crate</span>::core::processor::Processor;
 
@@ -34,7 +35,8 @@
 </span><span class="kw">pub struct </span>PluginDeclaration {
     <span class="kw">pub </span>rustc_version: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
     <span class="kw">pub </span>core_version: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str,
-    <span class="kw">pub </span>register: <span class="kw">unsafe extern </span><span class="string">"C" </span><span class="kw">fn</span>(<span class="kw-2">&amp;mut </span><span class="kw">dyn </span>PluginRegistrar),
+    <span class="attr">#[allow(improper_ctypes_definitions)]
+    </span><span class="kw">pub </span>register: <span class="kw">unsafe extern </span><span class="string">"C" </span><span class="kw">fn</span>(<span class="kw-2">&amp;mut </span><span class="kw">dyn </span>PluginRegistrar),
 }
 
 <span class="kw">pub trait </span>PluginRegistrar {
