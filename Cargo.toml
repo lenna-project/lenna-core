@@ -1,6 +1,6 @@
 [package]
 name = "lenna_core"
-version = "0.3.1"
+version = "0.3.2"
 authors = ["Christian <chriamue@gmail.com>"]
 edition = "2021"
 description = "Lenna is a library for image processing algorithms and apps."
@@ -22,11 +22,14 @@ python = ["ndarray", "nshare", "numpy", "pyo3", "pythonize"]
 cpp = []
 
 [dependencies]
-base64 = "0.13"
+base64 = "0.22"
 dyn-clone = "1.0"
-kamadak-exif = "0.5.5"
-image = { version = "0.24.7", default-features = false, features = ["png", "jpeg"] }
-img-parts = "0.2.3"
+kamadak-exif = "0.6.1"
+image = { version = "0.24.7", default-features = false, features = [
+    "png",
+    "jpeg",
+] }
+img-parts = "0.3.3"
 paste = "1.0"
 pyo3 = { version = "0.16", features = ["extension-module"], optional = true }
 ndarray = { version = "0.15.6", optional = true }
@@ -35,7 +38,7 @@ numpy = { version = "0.16", optional = true }
 pythonize = { version = "0.16", optional = true }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-serde_yaml = "0.8.26"
+serde_yaml = "0.9.34+deprecated"
 libc = "0.2"
 
 [dev-dependencies]
@@ -43,7 +46,7 @@ criterion = "0.3"
 
 [build-dependencies]
 rustc_version = "0.4"
-cbindgen = "0.24"
+cbindgen = "0.28"
 
 [target.wasm32-unknown-unknown.dependencies]
 console_error_panic_hook = "0.1.7"
