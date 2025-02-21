@@ -1,0 +1,9 @@
+(function() {
+    var implementors = Object.fromEntries([["lenna_core",[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/default/trait.Default.html\" title=\"trait core::default::Default\">Default</a> for <a class=\"struct\" href=\"lenna_core/core/config/struct.Config.html\" title=\"struct lenna_core::core::config::Config\">Config</a>"],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/default/trait.Default.html\" title=\"trait core::default::Default\">Default</a> for <a class=\"struct\" href=\"lenna_core/core/pipeline/struct.Pipeline.html\" title=\"struct lenna_core::core::pipeline::Pipeline\">Pipeline</a>"],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/default/trait.Default.html\" title=\"trait core::default::Default\">Default</a> for <a class=\"struct\" href=\"lenna_core/core/pool/struct.Pool.html\" title=\"struct lenna_core::core::pool::Pool\">Pool</a>"],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/default/trait.Default.html\" title=\"trait core::default::Default\">Default</a> for <a class=\"struct\" href=\"lenna_core/core/resize/struct.Resize.html\" title=\"struct lenna_core::core::resize::Resize\">Resize</a>"],["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.85.0/core/default/trait.Default.html\" title=\"trait core::default::Default\">Default</a> for <a class=\"struct\" href=\"lenna_core/core/struct.LennaImage.html\" title=\"struct lenna_core::core::LennaImage\">LennaImage</a>"]]]]);
+    if (window.register_implementors) {
+        window.register_implementors(implementors);
+    } else {
+        window.pending_implementors = implementors;
+    }
+})()
+//{"start":57,"fragment_lengths":[1458]}
